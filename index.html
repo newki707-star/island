@@ -8,97 +8,52 @@
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper-bg:#e8dfcf; 
-    --paper-card:#f2e9dc;
+    --paper-bg:#f4efe6; 
     --ink-dark:#1c1712; 
-    --ink-soft:#423930;
+    --ink-soft:#52463b;
     --accent-brown:#6e4b2d; 
-    --border-line:#a3927d;
-    --gold-accent:#9e753b;
+    --border-line:#d1c7b7;
   }
   *{box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
-  html,body{margin:0;padding:0;width:100%;height:100%; background:#0e0c0a;}
+  html,body{margin:0;padding:0;width:100%;height:100%; background:#12100e;}
   
   body{
     color:var(--ink-dark); 
     font-family:'Nanum Myeongjo', serif;
     display:flex; justify-content:center; align-items:center;
-    padding:0; margin:0;
   }
 
   #book{
     width: 100%;
-    max-width: 420px;
+    max-width: 480px;
     height: 100vh;
-    max-height: 860px;
+    max-height: 920px;
     background: var(--paper-bg);
     display: flex;
     flex-direction: column;
     position: relative;
-    box-shadow: 0 0 30px rgba(0,0,0,0.8);
+    box-shadow: 0 0 40px rgba(0,0,0,0.7);
     overflow: hidden;
   }
 
   .page{
     width: 100%;
     height: 100%;
-    padding: 16px 16px 12px 16px;
-    background: 
-      radial-gradient(circle at center, rgba(255,255,255,0.3) 0%, rgba(0,0,0,0.08) 100%),
-      linear-gradient(180deg, var(--paper-card), var(--paper-bg));
-    border: 10px solid #231c15;
-    outline: 2px solid #524332;
-    outline-offset: -6px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     position: relative;
+    background: var(--paper-bg);
   }
 
-  .status-bar{
-    display:flex; justify-content:space-between; font-size:11px; color:var(--ink-soft);
-    border-bottom:1px double var(--border-line); padding-bottom:4px; margin-bottom:8px;
-  }
-
-  .eyebrow{ font-size:11px; letter-spacing:0.25em; text-transform:uppercase; color:var(--accent-brown); text-align:center; margin-bottom:6px; }
-  h1.title{ font-weight:800; font-size:28px; line-height:1.3; text-align:center; margin:10px 0; color:var(--ink-dark); }
-  .subtitle{ font-size:15px; color:var(--ink-soft); line-height:1.7; text-align:center; margin:0 0 20px 0; word-break:keep-all; }
-
+  /* 상단 대형 이미지 영역 (화면의 약 55~60% 차지) */
   .illust-frame{ 
     width: 100%; 
-    height: 340px; 
-    margin: 0 auto 10px auto; 
+    height: 55vh;
+    max-height: 480px;
     position: relative;
-    background: rgba(0, 0, 0, 0.04);
-    border: 1px solid var(--border-line);
-    outline: 1px solid var(--border-line);
-    outline-offset: -5px;
-    display: flex; 
-    flex-direction: column;
-    justify-content: center; 
-    align-items: center; 
+    background: #000;
     overflow: hidden;
     flex-shrink: 0;
-  }
-
-  .illust-frame::before, .illust-frame::after {
-    content: "✦";
-    position: absolute;
-    font-size: 10px;
-    color: var(--accent-brown);
-    opacity: 0.6;
-    z-index: 2;
-  }
-  .illust-frame::before { top: 7px; left: 8px; }
-  .illust-frame::after { bottom: 7px; right: 8px; }
-
-  .frame-placeholder{
-    font-size: 13px;
-    color: var(--accent-brown);
-    letter-spacing: 0.1em;
-    text-align: center;
-    opacity: 0.8;
-    line-height: 1.6;
   }
 
   .illust-frame img{ 
@@ -106,79 +61,173 @@
     height: 100%; 
     object-fit: cover; 
     display: block;
-    position: absolute;
-    top: 0; left: 0;
   }
 
-  .dialog-box{
-    position: relative;
-    background: rgba(255, 255, 255, 0.55);
-    border: 1px solid var(--border-line);
-    padding: 12px 14px 22px 14px;
-    min-height: 115px;
+  .frame-placeholder{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    background: #2a241e;
+  }
+
+  /* 하단 컨텐츠 영역 (텍스트 및 선택지) */
+  .content-area {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    cursor: pointer;
-    user-select: none;
+    padding: 24px 24px 20px 24px;
+    overflow-y: auto;
   }
 
-  .dialog-box:active{
-    background: rgba(255, 255, 255, 0.75);
+  .text-box {
+    margin-bottom: 20px;
+    cursor: pointer;
   }
 
   .scene-text{
-    font-size:14.5px; line-height:1.7; color:var(--ink-dark);
-    white-space:pre-line; word-break:keep-all;
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--ink-dark);
+    white-space: pre-line;
+    word-break: keep-all;
   }
+  
   .scene-text .thought{
-    display:block; font-style:italic; font-size:13.5px; color:var(--accent-brown);
-    margin:4px 0; padding-left:8px; border-left:2px solid var(--accent-brown);
-  }
-  .scene-text .note-text{
-    display:block; font-size:13px; color:#2c241c; background:rgba(0,0,0,0.04);
-    padding:8px 10px; border-radius:2px; margin:4px 0; border:1px solid var(--border-line); line-height:1.5;
-  }
-
-  .next-indicator{
-    position: absolute;
-    right: 12px;
-    bottom: 6px;
-    font-size: 11px;
+    display: block;
+    font-style: italic;
+    font-size: 15px;
     color: var(--accent-brown);
-    animation: blinkTriangle 0.8s infinite alternate ease-in-out;
+    margin: 8px 0;
+    padding-left: 10px;
+    border-left: 2px solid var(--accent-brown);
+  }
+  
+  .scene-text .note-text{
+    display: block;
+    font-size: 14.5px;
+    color: #2c241c;
+    background: rgba(0,0,0,0.03);
+    padding: 12px 14px;
+    border-radius: 4px;
+    margin: 8px 0;
+    border: 1px solid var(--border-line);
+    line-height: 1.6;
   }
 
-  @keyframes blinkTriangle{
-    from { transform: translateY(0); opacity: 0.3; }
-    to { transform: translateY(3px); opacity: 1; }
+  .next-hint {
+    font-size: 12px;
+    color: var(--accent-brown);
+    margin-top: 8px;
+    letter-spacing: 0.1em;
+    opacity: 0.8;
   }
 
-  .choices{ display:flex; flex-direction:column; gap:6px; margin-top:6px; }
+  /* 선택지 스타일 (이미지 아래에 깔끔하게 배치) */
+  .choices{ 
+    display: flex; 
+    flex-direction: column; 
+    gap: 10px; 
+    margin-top: auto;
+    padding-bottom: 10px;
+  }
+
   button.choice{
-    font-family:'Nanum Myeongjo', serif; font-size:13.5px; font-weight:700; text-align:left;
-    background:rgba(255,255,255,0.65); color:var(--ink-dark); border:1px solid var(--border-line);
-    border-left:4px solid var(--gold-accent); padding:9px 10px; cursor:pointer;
-    transition:all 0.15s ease; line-height:1.35;
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 15px;
+    font-weight: 700;
+    text-align: center;
+    background: transparent;
+    color: var(--ink-dark);
+    border: none;
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    line-height: 1.5;
+    word-break: keep-all;
+    border-bottom: 1px solid var(--border-line);
   }
-  button.choice:active{ background:rgba(255,255,255,0.9); border-left-color:var(--accent-brown); }
+
+  button.choice:last-child {
+    border-bottom: none;
+  }
+
+  button.choice:active, button.choice:hover{
+    color: var(--accent-brown);
+    background: rgba(110, 75, 45, 0.05);
+  }
 
   button.primary{
-    font-family:'Nanum Myeongjo', serif; font-weight:800; font-size:16px; background:var(--ink-dark); color:var(--paper-bg);
-    border:1px solid var(--gold-accent); padding:12px 28px; cursor:pointer; margin: 10px auto 0 auto; display:block;
+    font-family: 'Nanum Myeongjo', serif;
+    font-weight: 800;
+    font-size: 16px;
+    background: var(--ink-dark);
+    color: var(--paper-bg);
+    border: none;
+    border-radius: 4px;
+    padding: 14px 28px;
+    cursor: pointer;
+    margin: 20px auto 0 auto;
+    display: block;
+    letter-spacing: 0.05em;
+  }
+
+  .title-container {
+    text-align: center;
+    margin: auto 0;
+  }
+
+  .eyebrow{ 
+    font-size: 12px; 
+    letter-spacing: 0.3em; 
+    text-transform: uppercase; 
+    color: var(--accent-brown); 
+    margin-bottom: 12px; 
+  }
+  
+  h1.title{ 
+    font-weight: 800; 
+    font-size: 32px; 
+    line-height: 1.3; 
+    margin: 0 0 16px 0; 
+    color: var(--ink-dark); 
+  }
+  
+  .subtitle{ 
+    font-size: 15.5px; 
+    color: var(--ink-soft); 
+    line-height: 1.8; 
+    margin: 0; 
+    word-break: keep-all; 
   }
 
   .stamp{
-    text-align:center; font-size:12px; font-weight:700; letter-spacing:0.2em;
-    color:var(--accent-brown); border:1px solid var(--accent-brown); padding:3px 8px; margin:0 auto 8px auto; width:max-content;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--accent-brown);
+    margin-bottom: 6px;
   }
-  .ending-title{ font-weight:800; font-size:20px; text-align:center; margin:0 0 8px 0; color:var(--ink-dark); }
+  
+  .ending-title{ 
+    font-weight: 800; 
+    font-size: 24px; 
+    text-align: center; 
+    margin: 0 0 16px 0; 
+    color: var(--ink-dark); 
+  }
 
-  .fade-in{ animation:fadeIn 0.3s ease both; display:flex; flex-direction:column; height:100%; justify-content:space-between; }
+  .fade-in{ animation: fadeIn 0.35s ease both; display: flex; flex-direction: column; height: 100%; }
   @keyframes fadeIn{ from{opacity:0;} to{opacity:1;} }
 
-  footer{ text-align:center; font-size:9.5px; color:var(--ink-soft); padding:2px 0; margin-top:4px; border-top:1px solid rgba(0,0,0,0.08); }
+  footer{ text-align:center; font-size:10px; color:var(--ink-soft); padding:6px 0; opacity:0.6; }
 </style>
 </head>
 <body>
@@ -212,8 +261,7 @@ function renderFrame(key, label){
   return `
     <div class="illust-frame">
       <div class="frame-placeholder">
-        🎨 <strong>${label}</strong><br>
-        <span style="font-size:11px; opacity:0.75;">[ 세로 확장 프레임 ]</span>
+        🎨 <strong>${label}</strong>
       </div>
     </div>
   `;
@@ -230,12 +278,15 @@ function addMemory(k){ if(!hasMemory(k)) state.memory.push(k); }
 const scenes = {
   title: { render: () => `
       ${renderFrame('bg', '시작 화면')}
-      <div style="margin:auto 0;">
-        <div class="eyebrow">Interactive Fiction</div>
-        <h1 class="title">해질녘의 섬</h1>
-        <p class="subtitle">지친 일상을 뒤로하고 바다로 나선 어느 날,<br>시간이 정지해 버린 안개 섬에 도착했다.</p>
+      <div class="content-area">
+        <div class="title-container">
+          <div class="eyebrow">Interactive Fiction</div>
+          <h1 class="title">해질녘의 섬</h1>
+          <p class="subtitle">지친 일상을 뒤로하고 바다로 나선 어느 날,<br>시간이 정지해 버린 안개 섬에 도착했다.</p>
+        </div>
+        <button class="primary" onclick="restartGame()">이야기 시작하기</button>
+        <footer>해질녘의 섬</footer>
       </div>
-      <button class="primary" onclick="restartGame()">이야기 시작하기</button>
   `},
 
   p1: { frame:["boat", "배"], text:()=>`반복되는 일상과 끝없는 서류 작업.
@@ -250,7 +301,7 @@ const scenes = {
   p4: { frame:["fog", "안개"], text:()=>`나침반 바늘은 방향을 잃고 뱅글뱅글 돌기만 했고, 
 엔진 소리만 무겁게 울렸다.`, next:"p5" },
 
-  p5: { frame:["beach", "해변"], text:()=>`둔탁한 마찰음과 함께 배가 작은 모래사장에 얹혀 섰다.
+  p5: { frame:["beach", "해변"], text:()=>`둔탁한 마찰음과 함께 배가 작은 모래사장에 박혔다.
 당황스럽기보단, 오랫동안 원했던 휴식처럼 느껴졌다.`, next:"p6" },
 
   p6: { frame:["beach", "해변"], text:()=>`"안개가 걷힐 때까지만... 쉬었다 가자."
@@ -258,12 +309,12 @@ const scenes = {
 가방에서 책을 꺼내 들고 모래사장에 앉았다.`, next:"p7" },
 
   p7: { frame:["shadow", "그림자"], text:()=>`한참 동안 책을 읽고 시계를 보았다.
-손목시계의 초침은 째깍거리며 4시간이 지났음을 알리고 있었다.`, next:"p8" },
+손목시계의 초침은 째깍거리며 2시간이 지났음을 알리고 있었다.`, next:"p8" },
 
   p8: { frame:["shadow", "그림자"], text:()=>`하지만 하늘의 노을은 여전히 주황색이었다.
 조금도 어두워지지 않았다.`, next:"p9" },
 
-  p9: { frame:["shadow", "그림자"], text:()=>`이상해서 모래사장 위에 그어놓은 내 나뭇가지 그림자를 관찰했다.
+  p9: { frame:["shadow", "그림자"], text:()=>`이상해서 모래사장 위에 세워둔 나뭇가지 그림자를 관찰했다.
 단 1밀리미터도 움직이지 않았다.
 
 ${T("시간이... 전혀 흐르지 않고 있다.")}`, next:"p10" },
@@ -278,19 +329,19 @@ ${T("시간이... 전혀 흐르지 않고 있다.")}`, next:"p10" },
 
   beach_choice: { frame:["house", "저택"],
     text: (s)=>`언덕 위로 낡은 2층 목조 저택이 보인다.
-해변 구석 모래사장에는 누군가 버리고 간 듯한 낡은 가방이 파묻혀 있다.`,
+그리고 그 앞에는 누군가 떨어뜨리고 간 듯한 낡은 가방이 파묻혀 있다.`,
     choices:(s)=>{
       const opts = [];
       if(!hasMemory("북두칠성_방향")){
         opts.push({label:"모래사장에 파묻힌 낡은 가방을 열어본다", next:"find_bag"});
       }
-      opts.push({label:"언덕 위 목조 저택으로 바로 올라간다", next:"house_front"});
+      opts.push({label:"시간을 지체할 수 없으니 언덕 위 저택으로 바로 올라간다", next:"house_front"});
       return opts;
     }
   },
 
   find_bag: { frame:["beach", "해변"],
-    text: (s)=>`가방 안에서 축축하게 젖은 옛 어부의 항해 기록장을 발견했다.
+    text: (s)=>`가방 안에서 어떤 어부의 항해 기록장을 발견했다.
 
 ${N("...이 섬 주변의 암초 지형은 기묘하다. 북쪽 절벽의 거친 암초는 오직 '북두칠성이 가리키는 수로'로만 빠져나갈 수 있다. 그렇지 않으면 배가 박살난다...")}
 
@@ -300,12 +351,12 @@ ${T("북두칠성 방향... 기억해 두자.")}`,
   },
 
   house_front: { frame:["house", "저택"],
-    text: (s)=>`저택 입구의 우체통 안에 주인의 일기장이 꽂혀 있다.`,
+    text: (s)=>`저택 입구의 우체통 안에 메모장이 있다.`,
     next:"house_diary"
   },
 
   house_diary: { frame:["house", "저택"],
-    text: (s)=>`${N("...나는 매일 오후 3시만 되면 차를 들고 서재로 들어간다. 서재로 들어설 때마다 거실의 커다란 쾌종시계가 울리곤 했다. 그 시계는 서재와 무언가 연결되어 있는 느낌이다...")}
+    text: (s)=>`${N("...매일 오후 3시쯤 서재로 들어간다. 이상하게 서재로 들어설 때마다 거실의 커다란 괘종시계가 울리곤 했다. 시계는 서재와 무언가 연결되어 있는 느낌이다...")}
 
 ${T("오후 3시... 그리고 서재.")}`,
     next:"hall",
@@ -313,8 +364,8 @@ ${T("오후 3시... 그리고 서재.")}`,
   },
 
   hall: { frame:["hall_clock", "로비"],
-    text: (s)=>`저택 로비는 정적 속에 싸여 있다. 
-중앙에는 거대한 쾌종시계가 서 있고, 계단과 복도가 여러 갈래로 나뉘어 있다.`,
+    text: (s)=>`저택은 적막하다. 
+중앙에는 거대한 괘종시계가 서 있고, 계단과 복도가 여러 갈래로 나뉘어 있다.`,
     choices:(s)=>{
       const opts = [
         {label:"1층 서재 문을 열고 들어간다", next:"study"},
@@ -326,9 +377,9 @@ ${T("오후 3시... 그리고 서재.")}`,
       }
 
       if(hasMemory("3시_서재")){
-        opts.push({label:"쾌종시계 바늘을 '오후 3시'로 돌린다", next:"clock_success"});
+        opts.push({label:"괘종시계 바늘을 '오후 3시'로 돌린다", next:"clock_success"});
       } else {
-        opts.push({label:"쾌종시계 바늘을 정각 '12시'로 돌려본다", next:"clock_trap"});
+        opts.push({label:"괘종시계 바늘을 정각 '12시'로 돌려본다", next:"clock_trap"});
       }
 
       return opts;
@@ -339,7 +390,7 @@ ${T("오후 3시... 그리고 서재.")}`,
     text: (s)=>`태엽을 돌리자 둔탁한 소리와 함께 시계 내부 스프링이 경고음처럼 튕겨 나왔다!
 먼지가 자욱하게 날리며 시계 바늘이 뻑뻑하게 고장 나 버렸다.
 
-${T("어디선가 정확한 시각 힌트를 찾아야 해...")}`,
+${T("어디선가 정확한 정보를 찾아야 해...")}`,
     next:"hall"
   },
 
@@ -351,7 +402,7 @@ ${T("어디선가 정확한 시각 힌트를 찾아야 해...")}`,
   },
 
   study_detail: { frame:["desk", "서재"],
-    text: (s)=>`${N("...등대의 강력한 빛이라도 그냥 쏘면 안개에 반사되어 무용지물이 된다. 반드시 '북동쪽 절벽의 반사판'을 향해 조준해야 안개 파동이 깨진다...")}
+    text: (s)=>`${N("...등대의 강력한 빛이라도 그냥 쏘면 안개에 반사되어 무용지물이 된다. 반드시 '북동쪽 절벽의 반사판'을 향해 조준해야 안개가 사라진다...")}
 
 ${T("북동쪽 절벽...")}`,
     next:"study_choice",
@@ -359,14 +410,14 @@ ${T("북동쪽 절벽...")}`,
   },
 
   study_choice: { frame:["desk", "서재"],
-    text: (s)=>`책상 위의 놋쇠 잠금 상자가 보인다.`,
+    text: (s)=>`책상 위에 굳게 잠긴 상자가 보인다.`,
     choices:(s)=>{
       const opts = [];
       if(!hasMemory("렌즈_조각")){
         opts.push({label:"다이얼을 '3-8-5'로 조합해 맞춘다", next:"study_box_open"});
         opts.push({label:"다이얼을 '3-8-8'로 조합해 맞춘다", next:"study_box_fail"});
       } else {
-        opts.push({label:"이미 열려있는 놋쇠 상자 내부를 살펴본다", next:"study_box_empty"});
+        opts.push({label:"열린 상자 내부를 살펴본다", next:"study_box_empty"});
       }
       opts.push({label:"로비로 돌아간다", next:"hall"});
       return opts;
@@ -374,16 +425,16 @@ ${T("북동쪽 절벽...")}`,
   },
 
   study_box_empty: { frame:["desk", "서재"],
-    text: (s)=>`상자는 이미 비어있다. 모서리에 아주 미세한 안개 억제 집광 기술 관련 도면이 남아있다.`, next:"hall" },
+    text: (s)=>`상자에는 아주 미세한 안개 억제 기술 관련 도면이 남아있다.`, next:"hall" },
 
   study_box_fail: { frame:["desk", "서재"],
     text: (s)=>`철컥... 다이얼을 맞췄지만 잠금장치는 미동도 하지 않는다.
-${T("조합 숫자가 틀린 것 같다.")}`,
+${T("숫자가 틀린 것 같다.")}`,
     next:"hall"
   },
 
   study_box_open: { frame:["desk", "서재"],
-    text: (s)=>`탁! 상자가 열리며 정밀하게 세공된 **'집광 강화 필터 렌즈'**를 획득했다!`,
+    text: (s)=>`탁! 상자가 열리며 정밀하게 세공된 **'특수 강화 렌즈'**를 획득했다!`,
     next:"hall",
     action: ()=>addMemory("렌즈_조각")
   },
@@ -396,7 +447,7 @@ ${T("조합 숫자가 틀린 것 같다.")}`,
   },
 
   bedroom_detail: { frame:["house", "침실"],
-    text: (s)=>`${N("...안개 입자는 특정 주파수에 공명하여 흔들린다. 등대 음향 제어기를 '88.5MHz'로 맞추었을 때 안개가 흩어지는 현상을 관찰했다...")}
+    text: (s)=>`${N("...여기 안개 입자는 특정 주파수에 반응한다. 등대 제어기를 '88.5MHz'로 맞추었을 때 안개가 흩어지는 현상을 관찰했다...")}
 
 ${T("주파수 88.5MHz...")}`,
     next:"hall",
@@ -422,14 +473,14 @@ ${T("으윽... 만지지 말았어야 했어!")}`,
   },
 
   attic_detail: { frame:["attic", "다락방"],
-    text: (s)=>`${N("...상현달이 뜨는 날에는 망원경의 광학 초점을 '3단계'로 밀어 넣을 때 비로소 거울 공명 파동이 최고조에 달한다...")}
+    text: (s)=>`${N("...파도가 잔잔해지는 날에는 왠지 '최고급 파란색 금장' 망원경으로 보고 싶다. 주로 '2단계'로 설정해놓는다...")}
 
-${T("초점 3단계... 등대에서 유용하겠어.")}`,
+${T("파란색 금장 망원경...2단계")}`,
     next:"hall",
     action: ()=>addMemory("렌즈_초점_3단계")
   },
 
-  clock_success: { frame:["hall_clock", "쾌종시계"],
+  clock_success: { frame:["hall_clock", "괘종시계"],
     text: (s)=>`시계 바늘을 '오후 3시'에 맞추자, 둔탁한 소리와 함께 시계 뒤편의 벽면이 열리며 지하 비밀통로가 나타났다!`,
     next:"secret_path"
   },
@@ -474,13 +525,13 @@ ${T("안개 속에서는 단순 불빛 신호가 통하지 않아...")}`,
       const opts = [];
 
       if(hasMemory("렌즈_초점_3단계")){
-        opts.push({label:"망원경 노트대로 렌즈 초점을 '3단계'로 밀어 넣는다", next:"lighthouse_focus_success"});
+        opts.push({label:"망원경 노트대로 '2단계'로 조정한다", next:"lighthouse_focus_success"});
       } else {
-        opts.push({label:"렌즈 초점 다이얼을 '1단계'로 맞춘다", next:"lighthouse_focus_fail"});
+        opts.push({label:"가장 높은 단계인 '5단계'로 맞춘다", next:"lighthouse_focus_fail"});
       }
 
       if(hasMemory("렌즈_조각") && !hasMemory("강화_렌즈_장착")){
-        opts.push({label:"획득한 '집광 강화 필터 렌즈'를 메인 슬롯에 끼운다", next:"lighthouse_lens_success"});
+        opts.push({label:"획득한 '특수 강화 렌즈'를 메인 슬롯에 끼운다", next:"lighthouse_lens_success"});
       }
 
       opts.push({label:"등대 메인 조작부로 돌아간다", next:"lighthouse"});
@@ -492,7 +543,7 @@ ${T("안개 속에서는 단순 불빛 신호가 통하지 않아...")}`,
     text: (s)=>`초점이 맞지 않아 렌즈가 헐겁게 흔들린다.`, next:"lighthouse" },
 
   lighthouse_focus_success: { frame:["title_bg", "등대"],
-    text: (s)=>`탁! 초점이 3단계 위치에 완벽하게 결합되었다.`,
+    text: (s)=>`탁! 초점이 2단계 위치에 완벽하게 결합되었다.`,
     next:"lighthouse",
     action: ()=>addMemory("초점_완료")
   },
@@ -544,7 +595,6 @@ ${N("...이 섬 주변의 암초를 빠져나가는 수로는 오직 '북두칠�
     }
   },
 
-  // --- [엔딩 S: 진실 해방 연출] ---
   p_light_true_1: { frame:["title_bg", "등대"],
     text:()=>`88.5MHz 주파수에 맞춰 나사를 미세하게 돌렸다.
 제어반 내부에서 웅장한 진동 공명음이 높아지기 시작한다.`, next:"p_light_true_2" },
@@ -569,7 +619,6 @@ ${N("...이 섬 주변의 암초를 빠져나가는 수로는 오직 '북두칠�
 저택 깊은 곳에서 오랫동안 멈춰있던 쾌종시계의 초침 소리가 다시 뛰기 시작한다.
 주황색으로 얼어붙어 있던 노을이 넘어가고, 밤하늘의 붉은 노을 위로 별빛이 하나둘 떠오른다.`, next:"ENDCALC", value:"true_light" },
 
-  // --- [엔딩 B: 임시 구조 연출] ---
   p_light_normal_1: { frame:["title_bg", "등대"],
     text:()=>`주파수와 반사판 조준 없이 묵직한 메인 레버를 내려버렸다.
 불완전한 섬광이 뿜어져 나왔으나 안개 벽에 부딪혀 산산조각 났다.`, next:"p_light_normal_2" },
@@ -583,7 +632,6 @@ ${N("...이 섬 주변의 암초를 빠져나가는 수로는 오직 '북두칠�
 근해를 지나던 어선 한 대가 기이한 빛 기둥을 보고 다가온 것이다.
 진실을 모두 파헤치지는 못했지만, 당신은 마침내 현실로 돌아갈 구원의 손길을 잡았다.`, next:"ENDCALC", value:"normal_light" },
 
-  // --- [엔딩 A: 북두칠성 탈출 연출] ---
   p_escape_true_1: { frame:["cave", "지하포구"],
     text:()=>`하늘의 북두칠성을 가리키는 뱃길을 향해 노를 저어 나갔다.`, next:"p_escape_true_2" },
   p_escape_true_2: { frame:["cave", "지하포구"],
@@ -600,7 +648,6 @@ ${N("...이 섬 주변의 암초를 빠져나가는 수로는 오직 '북두칠�
 상반신을 적시는 시원한 바닷물, 그리고 머리 위로 펼쳐진 밤하늘의 북두칠성.
 당신은 오직 당신 자신의 직감과 단서로 사선을 넘어섰다.`, next:"ENDCALC", value:"true_escape" },
 
-  // --- [엔딩 C: 난파 연출] ---
   p_escape_risk_1: { frame:["cave", "지하포구"],
     text:()=>`무작정 노를 저어 나간 지 얼마 되지 않아, 쿵 하는 소리와 함께 뗏목 바닥이 날카로운 암초에 부딪혔다!`, next:"p_escape_risk_2" },
   p_escape_risk_2: { frame:["beach", "해변"],
@@ -613,7 +660,6 @@ ${N("...이 섬 주변의 암초를 빠져나가는 수로는 오직 '북두칠�
 몸은 만신창이가 되었고 탈출 수단은 사라졌다.
 하지만 아직 숨이 붙어있다. 저택으로 돌아가 다른 방법을 찾아야만 한다...`, next:"ENDCALC", value:"risk_escape" },
 
-  // --- [엔딩 D: 영원한 안식 연출] ---
   p_stay_1: { frame:["shadow", "그림자"],
     text:()=>`노를 내려놓고 가만히 자리에 앉았다.
 더 이상 나이를 먹지도, 끊임없는 경쟁과 서류 작업에 쫓길 필요도 없는 이곳.`, next:"p_stay_2" },
@@ -655,17 +701,6 @@ function computeEnding(choice){
   return 'ending_stay';
 }
 
-function statusHtml(){
-  return `<div class="status-bar">
-    <span>🧭 단서 단계: <strong>${state.memory.length}개 발견</strong></span>
-    <span>해질녘의 섬</span>
-  </div>`;
-}
-
-function footerHtml(){
-  return `<footer>― 📜 화면 또는 대사창을 터치하여 진행하세요 ―</footer>`;
-}
-
 function restartGame(){
   state = { memory: [] };
   go('p1');
@@ -704,13 +739,15 @@ function go(sceneId){
 
     panel.innerHTML = `
       <div class="fade-in">
-        ${statusHtml()}
         ${frameHtml}
-        <div class="dialog-box" onclick="${nextClickAction}">
-          <div class="scene-text">${text}</div>
-          <div class="next-indicator">▼</div>
+        <div class="content-area">
+          <div class="text-box" onclick="${nextClickAction}">
+            <div class="scene-text">${text}</div>
+            <div class="next-hint">▼ 화면을 터치하여 계속</div>
+          </div>
+          <div></div>
+          <footer>해질녘의 섬</footer>
         </div>
-        ${footerHtml()}
       </div>
     `;
     return;
@@ -720,22 +757,19 @@ function go(sceneId){
   currentChoices = choiceList;
 
   const choicesHtml = choiceList.map((c,i) =>
-    `<button class="choice" onclick="choose(${i})">
-      <span>${c.label}</span>
-    </button>`
+    `<button class="choice" onclick="choose(${i})">${c.label}</button>`
   ).join('');
 
   panel.innerHTML = `
     <div class="fade-in">
-      ${statusHtml()}
       ${frameHtml}
-      <div style="flex-grow:1; display:flex; flex-direction:column; justify-content:space-between;">
-        <div class="dialog-box" style="min-height:75px; flex-grow:0; cursor:default;">
+      <div class="content-area">
+        <div class="text-box" style="cursor:default;">
           <div class="scene-text">${text}</div>
         </div>
         <div class="choices">${choicesHtml}</div>
+        <footer>해질녘의 섬</footer>
       </div>
-      ${footerHtml()}
     </div>
   `;
 }
@@ -748,23 +782,25 @@ function renderEnding(endId){
 
   panel.innerHTML = `
     <div class="fade-in">
-      <div>
-        <div class="stamp">${e.badge}</div>
-        <h1 class="ending-title">${e.title}</h1>
-      </div>
       ${frameHtml}
-      <div class="dialog-box" style="cursor:default;">
-        <div class="scene-text">${text}</div>
+      <div class="content-area">
+        <div>
+          <div class="stamp">${e.badge}</div>
+          <h1 class="ending-title">${e.title}</h1>
+        </div>
+        <div class="text-box" style="cursor:default;">
+          <div class="scene-text">${text}</div>
+        </div>
+        <button class="primary" onclick="restartGame()">처음부터 다시 시작</button>
+        <footer>해질녘의 섬</footer>
       </div>
-      <button class="primary" onclick="restartGame()">처음부터 다시 시작</button>
-      ${footerHtml()}
     </div>
   `;
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   const panel = document.getElementById('panel');
-  panel.innerHTML = `<div class="fade-in">${scenes.title.render()}${footerHtml()}</div>`;
+  panel.innerHTML = `<div class="fade-in">${scenes.title.render()}</div>`;
 });
 </script>
 </body>
