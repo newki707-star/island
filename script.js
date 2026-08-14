@@ -1,15 +1,15 @@
 const IMAGES = {
-  attic: "images/attic.png",
-  beach: "images/beach.png",
-  boat: "images/boat.png",
-  cave: "images/cave.png",
-  desk: "images/desk.png",
-  fog: "images/fog.png",
-  hall_clock: "images/hall_clock.png",
-  house: "images/house.png",
-  lighthouse: "images/lighthouse.png",
-  shadow: "images/shadow.png",
-  stars: "images/stars.png"
+  attic: "attic.png",
+  beach: "beach.png",
+  boat: "boat.png",
+  cave: "cave.png",
+  desk: "desk.png",
+  fog: "fog.png",
+  hall_clock: "hall_clock.png",
+  house: "house.png",
+  lighthouse: "lighthouse.png",
+  shadow: "shadow.png",
+  stars: "stars.png"
 };
 
 const storyData = {
