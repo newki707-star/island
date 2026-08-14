@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>해질녘의 섬</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
     --paper-bg:#f4efe6; 
@@ -19,7 +19,7 @@
   
   body{
     color:var(--ink-dark); 
-    font-family:'Nanum Myeongjo', serif;
+    font-family:'Nanum Gothic', sans-serif;
     display:flex; justify-content:center; align-items:center;
   }
 
@@ -89,6 +89,8 @@
   .text-box {
     margin-bottom: 20px;
     cursor: pointer;
+    position: relative;
+    padding-bottom: 24px;
   }
 
   .scene-text{
@@ -122,14 +124,21 @@
   }
 
   .next-hint {
-    font-size: 12px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    font-size: 18px;
     color: var(--accent-brown);
-    margin-top: 8px;
     letter-spacing: 0.1em;
-    opacity: 0.8;
+    animation: blink 1.2s infinite ease-in-out;
   }
 
-  /* 선택지 스타일 (이미지 아래에 깔끔하게 배치) */
+  @keyframes blink {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 1; }
+  }
+
+  /* 선택지 스타일 */
   .choices{ 
     display: flex; 
     flex-direction: column; 
@@ -139,7 +148,7 @@
   }
 
   button.choice{
-    font-family: 'Nanum Myeongjo', serif;
+    font-family: 'Nanum Gothic', sans-serif;
     font-size: 15px;
     font-weight: 700;
     text-align: center;
@@ -163,8 +172,20 @@
     background: rgba(110, 75, 45, 0.05);
   }
 
+  /* 숨겨진 선택지 잠금 해제 연출용 스타일 */
+  button.choice.hidden-unlocked {
+    color: var(--accent-brown);
+    background: rgba(110, 75, 45, 0.08);
+    animation: fadeInChoice 0.5s ease;
+  }
+
+  @keyframes fadeInChoice {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
   button.primary{
-    font-family: 'Nanum Myeongjo', serif;
+    font-family: 'Nanum Gothic', sans-serif;
     font-weight: 800;
     font-size: 16px;
     background: var(--ink-dark);
@@ -382,8 +403,20 @@ ${T("오후 3시... 그리고 서재.")}`,
         opts.push({label:"괘종시계 바늘을 정각 '12시'로 돌려본다", next:"clock_trap"});
       }
 
+      // [숨겨진 선택지] 특정 장소를 모두 방문(서재, 침실, 다락방)하고 나면 로비에 숨겨진 비밀 공간 조사 선택지가 해제됨!
+      if(hasMemory("서재_방문") && hasMemory("침실_방문") && hasMemory("다락방_방문")){
+        opts.push({label:"✨ [조사] 로비 바닥에 새겨진 미묘한 별자리의 흔적을 살펴본다", next:"secret_hall_hint", isHiddenUnlocked: true});
+      }
+
       return opts;
     }
+  },
+
+  secret_hall_hint: { frame:["hall_clock", "로비"],
+    text: (s)=>`바닥을 자세히 살펴보자, 괘종시계 하단부 패널에 숨겨진 작은 열쇠 구멍이 나타났다!
+${T("비밀 통로뿐만 아니라 이 안에도 무언가 숨겨져 있었어...")}`,
+    next:"hall",
+    action: ()=>addMemory("비밀_열쇠구멍_발견")
   },
 
   clock_trap: { frame:["hall_clock", "쾌종시계"],
@@ -461,7 +494,8 @@ ${T("주파수 88.5MHz...")}`,
       {label:"망원경 옆 노트의 기록을 자세히 읽어본다", next:"attic_detail"},
       {label:"탁자 위 태엽 오르골을 끝까지 감아 작동시킨다", next:"attic_trap"},
       {label:"로비로 돌아내려간다", next:"hall"}
-    ]
+    ],
+    action: ()=>addMemory("다락방_방문")
   },
 
   attic_trap: { frame:["attic", "다락방"],
@@ -487,10 +521,24 @@ ${T("파란색 금장 망원경...2단계")}`,
 
   secret_path: { frame:["house", "비밀통로"],
     text: (s)=>`비밀통로는 두 갈래로 갈라진다. 위쪽은 등대로, 아래쪽은 지하 포구 동굴로 연결된다.`,
-    choices:[
-      {label:"섬 정상의 등대로 올라간다", next:"lighthouse"},
-      {label:"어두운 지하 포구 동굴로 내려간다", next:"cave"}
-    ]
+    choices:(s)=>{
+      const opts = [
+        {label:"섬 정상의 등대로 올라간다", next:"lighthouse"},
+        {label:"어두운 지하 포구 동굴로 내려간다", next:"cave"}
+      ];
+      // [숨겨진 선택지] 로비에서 비밀 열쇠구멍을 발견했다면 비밀통로에서도 추가 은닉 선택지 오픈 가능
+      if(hasMemory("비밀_열쇠구멍_발견") && !hasMemory("비밀_보물_획득")){
+        opts.push({label:"🔍 [탐색] 통로 벽면에 파여진 숨겨진 벽감을 조사한다", next:"secret_hidden_item", isHiddenUnlocked: true});
+      }
+      return opts;
+    }
+  },
+
+  secret_hidden_item: { frame:["house", "비밀통로"],
+    text: (s)=>`벽감을 밀어내자 섬의 창립자가 남긴 '기묘한 황금 회중시계'가 빛나고 있다!
+${T("이 시계를 가지면 이 섬의 진정한 비밀에 닿을 수 있을지도 몰라.")}`,
+    next:"secret_path",
+    action: ()=>addMemory("비밀_보물_획득")
   },
 
   lighthouse: { frame:["title_bg", "등대"],
@@ -507,6 +555,12 @@ ${T("파란색 금장 망원경...2단계")}`,
       }
 
       opts.push({label:"등대 불빛으로 허공에 SOS 모스 신호를 보낸다", next:"p_light_trap"});
+      
+      // [숨겨진 선택지] 비밀 보물을 획득했다면 등대 최상층에서 특별한 광선 모드 해제 가능
+      if(hasMemory("비밀_보물_획득")){
+        opts.push({label:"🌟 [특수] 회중시계를 제어판에 연동해 '영원한 안개의 해제'를 시도한다", next:"p_light_true_secret", isHiddenUnlocked: true});
+      }
+
       opts.push({label:"비밀 통로로 돌아간다", next:"secret_path"});
       return opts;
     }
@@ -619,6 +673,10 @@ ${N("...이 섬 주변의 암초를 빠져나가는 수로는 오직 '북두칠�
 저택 깊은 곳에서 오랫동안 멈춰있던 쾌종시계의 초침 소리가 다시 뛰기 시작한다.
 주황색으로 얼어붙어 있던 노을이 넘어가고, 밤하늘의 붉은 노을 위로 별빛이 하나둘 떠오른다.`, next:"ENDCALC", value:"true_light" },
 
+  p_light_true_secret: { frame:["title_bg", "등대"],
+    text:()=>`황금 회중시계를 제어판 중앙 홈에 끼워 넣자, 등대 전체가 찬란한 푸른빛의 성스러운 오라로 감싸였다!
+안개는 흔적도 없이 증발하고, 섬 전체가 새로운 차원의 빛으로 해방된다.`, next:"ENDCALC", value:"true_secret" },
+
   p_light_normal_1: { frame:["title_bg", "등대"],
     text:()=>`주파수와 반사판 조준 없이 묵직한 메인 레버를 내려버렸다.
 불완전한 섬광이 뿜어져 나왔으나 안개 벽에 부딪혀 산산조각 났다.`, next:"p_light_normal_2" },
@@ -672,6 +730,9 @@ ${N("...이 섬 주변의 암초를 빠져나가는 수로는 오직 '북두칠�
 };
 
 const endings = {
+  ending_true_secret:{ frame:["stars", "엔딩 SS"], badge:"엔딩 SS · 완벽한 해방", title:"시간의 주인",
+    text:(s)=>`숨겨진 비밀 시계를 이용해 섬의 결계를 완전히 해제했다. 안개 속에서 해방된 당신은 새로운 지평을 향해 힘차게 나아간다.`},
+
   ending_true_light:{ frame:["title_bg", "엔딩 S"], badge:"엔딩 S · 진실 해방", title:"다시 흐르는 시간",
     text:(s)=>`88.5MHz의 공명과 북동쪽 절벽으로 뻗어간 빛이 안개를 파괴했다.
 멈춰있던 저택의 시계가 다시 째깍거리기 시작했고, 당신은 섬을 벗어나 진짜 당신의 삶으로 돌아왔다.`},
@@ -694,6 +755,7 @@ const endings = {
 };
 
 function computeEnding(choice){
+  if(choice === 'true_secret') return 'ending_true_secret';
   if(choice === 'true_light') return 'ending_true_light';
   if(choice === 'normal_light') return 'ending_normal_light';
   if(choice === 'true_escape') return 'ending_true_escape';
@@ -756,9 +818,10 @@ function go(sceneId){
   const choiceList = typeof scene.choices === 'function' ? scene.choices(state) : scene.choices;
   currentChoices = choiceList;
 
-  const choicesHtml = choiceList.map((c,i) =>
-    `<button class="choice" onclick="choose(${i})">${c.label}</button>`
-  ).join('');
+  const choicesHtml = choiceList.map((c,i) => {
+    const extraClass = c.isHiddenUnlocked ? ' choice hidden-unlocked' : 'choice';
+    return `<button class="${extraClass}" onclick="choose(${i})">${c.label}</button>`;
+  }).join('');
 
   panel.innerHTML = `
     <div class="fade-in">
