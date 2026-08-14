@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>해질녘의 섬</title>
+<title>해질녘의 섬 - 오디오 확장판</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
 <style>
@@ -36,6 +36,40 @@
     overflow: hidden;
   }
 
+  /* 상단 고정 오디오 컨트롤 바 */
+  .audio-bar {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(28, 23, 18, 0.75);
+    padding: 6px 10px;
+    border-radius: 20px;
+    backdrop-filter: blur(4px);
+    transition: opacity 0.3s ease;
+  }
+
+  .audio-bar button {
+    background: none;
+    border: none;
+    color: #f4efe6;
+    font-size: 13px;
+    font-family: 'Nanum Gothic', sans-serif;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 4px;
+  }
+
+  .audio-bar span {
+    color: #d1c7b7;
+    font-size: 11px;
+  }
+
   .page{
     width: 100%;
     height: 100%;
@@ -45,7 +79,6 @@
     background: var(--paper-bg);
   }
 
-  /* 상단 대형 이미지 영역 (화면의 약 55~60% 차지) */
   .illust-frame{ 
     width: 100%; 
     height: 55vh;
@@ -76,7 +109,6 @@
     background: #2a241e;
   }
 
-  /* 하단 컨텐츠 영역 (텍스트 및 선택지) */
   .content-area {
     flex-grow: 1;
     display: flex;
@@ -138,7 +170,6 @@
     50% { opacity: 1; }
   }
 
-  /* 선택지 스타일 */
   .choices{ 
     display: flex; 
     flex-direction: column; 
@@ -172,7 +203,6 @@
     background: rgba(110, 75, 45, 0.05);
   }
 
-  /* 숨겨진 선택지 잠금 해제 연출용 스타일 */
   button.choice.hidden-unlocked {
     color: var(--accent-brown);
     background: rgba(110, 75, 45, 0.08);
@@ -254,10 +284,135 @@
 <body>
 
 <div id="book">
+  <!-- 오디오 컨트롤 UI 위젯 -->
+  <div class="audio-bar" id="audioBar" style="display:none;">
+    <button onclick="toggleAudio()" id="audioBtn">🔇 음소거</button>
+  </div>
   <div class="page" id="panel"></div>
 </div>
 
 <script>
+/* Web Audio API를 활용한 미스터리/다크 분위기 실시간 앰비언트 사운드 엔진 */
+let audioCtx = null;
+let isAudioPlaying = false;
+let ambientInterval = null;
+let masterGain = null;
+
+function initAudio() {
+  if (audioCtx) return;
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+  audioCtx = new AudioContext();
+
+  masterGain = audioCtx.createGain();
+  masterGain.gain.setValueAtTime(0.25, audioCtx.currentTime);
+  masterGain.connect(audioCtx.destination);
+}
+
+// 어둡고 음산한 저음 드론(Drone)과 무작위 종소리/바람 효과 생성
+function startDarkAmbient() {
+  if (isAudioPlaying) return;
+  initAudio();
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+  isAudioPlaying = true;
+  updateAudioButtonUI();
+
+  // 1. 깊은 저음 드론 베이스 (미스테리한 긴장감)
+  playDroneOscillator(55, 0.15); // A1
+  playDroneOscillator(82.41, 0.08); // E2
+
+  // 2. 일정한 주기로 울리는 음산한 앰비언트 사운드 루프
+  ambientInterval = setInterval(() => {
+    if (!isAudioPlaying) return;
+    playAtmosphericNote();
+  }, 4500);
+}
+
+function stopDarkAmbient() {
+  isAudioPlaying = false;
+  if (ambientInterval) {
+    clearInterval(ambientInterval);
+    ambientInterval = null;
+  }
+  if (audioCtx) {
+    audioCtx.close();
+    audioCtx = null;
+  }
+  updateAudioButtonUI();
+}
+
+function toggleAudio() {
+  if (isAudioPlaying) {
+    stopDarkAmbient();
+  } else {
+    startDarkAmbient();
+  }
+}
+
+function updateAudioButtonUI() {
+  const btn = document.getElementById('audioBtn');
+  if (btn) {
+    btn.innerHTML = isAudioPlaying ? "🔊 BGM 켜짐" : "🔇 BGM 꺼짐";
+  }
+}
+
+function playDroneOscillator(freq, volume) {
+  if (!audioCtx) return;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  
+  osc.type = 'triangle';
+  osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+  // 미세한 주파수 떨림 효과 (LFO 유사)
+  const lfo = audioCtx.createOscillator();
+  const lfoGain = audioCtx.createGain();
+  lfo.frequency.setValueAtTime(0.2, audioCtx.currentTime);
+  lfoGain.gain.setValueAtTime(1.5, audioCtx.currentTime);
+  lfo.connect(osc.frequency);
+  lfo.start();
+
+  gain.gain.setValueAtTime(0, audioCtx.currentTime);
+  gain.gain.linearRampToValueAtTime(volume, audioCtx.currentTime + 3);
+
+  osc.connect(gain);
+  gain.connect(masterGain);
+  osc.start();
+}
+
+function playAtmosphericNote() {
+  if (!audioCtx || !isAudioPlaying) return;
+  
+  // 마이너 펜타토닉 및 공포 분위기 음계 (A단조 기반)
+  const notes = [220, 261.63, 293.66, 329.63, 392, 440, 523.25];
+  const chosenFreq = notes[Math.floor(Math.random() * notes.length)];
+
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+
+  osc.type = Math.random() > 0.5 ? 'sine' : 'sawtooth';
+  osc.frequency.setValueAtTime(chosenFreq, audioCtx.currentTime);
+
+  // 공간감을 주는 페이드 인/아웃  envelope
+  const now = audioCtx.currentTime;
+  gain.gain.setValueAtTime(0, now);
+  gain.gain.linearRampToValueAtTime(0.04, now + 1.2);
+  gain.gain.exponentialRampToValueAtTime(0.0001, now + 5.0);
+
+  // 저역 통과 필터로 몽환적이고 어두운 질감 부여
+  const filter = audioCtx.createBiquadFilter();
+  filter.type = 'lowpass';
+  filter.frequency.setValueAtTime(600, now);
+
+  osc.connect(filter);
+  filter.connect(gain);
+  gain.connect(masterGain);
+
+  osc.start(now);
+  osc.stop(now + 5.2);
+}
+
 const IMAGES = {
   bg: "bg.png",
   title_bg: "title_bg.png",
@@ -305,7 +460,7 @@ const scenes = {
           <h1 class="title">해질녘의 섬</h1>
           <p class="subtitle">지친 일상을 뒤로하고 바다로 나선 어느 날,<br>시간이 정지해 버린 안개 섬에 도착했다.</p>
         </div>
-        <button class="primary" onclick="restartGame()">이야기 시작하기</button>
+        <button class="primary" onclick="startGameAudio()">이야기 시작하기</button>
         <footer>해질녘의 섬</footer>
       </div>
   `},
@@ -446,7 +601,6 @@ ${T("북동쪽 절벽...")}`,
     choices:(s)=>{
       const opts = [];
       if(!hasMemory("렌즈_조각")){
-        // [수정된 조건] 암각화(비밀번호 힌트)를 보기 전에는 다이얼 선택지가 나오지 않고 독백만 출력
         if(hasMemory("암초_수로_파악")){
           opts.push({label:"다이얼을 '3-8-5'로 조합해 맞춘다", next:"study_box_open"});
           opts.push({label:"다이얼을 '3-8-8'로 조합해 맞춘다", next:"study_box_fail"});
@@ -771,6 +925,12 @@ function computeEnding(choice){
   if(choice === 'true_escape') return 'ending_true_escape';
   if(choice === 'risk_escape') return 'ending_risk_escape';
   return 'ending_stay';
+}
+
+function startGameAudio(){
+  startDarkAmbient();
+  document.getElementById('audioBar').style.display = 'flex';
+  go('p1');
 }
 
 function restartGame(){
