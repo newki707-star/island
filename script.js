@@ -128,3 +128,5 @@ function renderScene(stateKey) {
     choicesEl.appendChild(btn);
   });
 }
+// 페이지가 로드되면 바로 첫 번째 장면(start)을 미리 세팅
+renderScene('start');
