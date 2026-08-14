@@ -117,18 +117,19 @@
     padding: 8px 10px; border-radius: 4px; margin: 6px 0; border: 1px solid var(--border-line); line-height: 1.5;
   }
 
+  /* 글자 없이 삼각형만 키워서 은은하게 표시 */
   .next-guide{
-    font-size: 11px;
+    font-size: 18px;
     color: var(--accent-brown);
     text-align: center;
-    margin-top: 10px;
-    opacity: 0.7;
+    margin-top: 12px;
+    opacity: 0.8;
     animation: fadeInOut 1s infinite alternate;
   }
 
   @keyframes fadeInOut {
     from { opacity: 0.3; }
-    to { opacity: 0.9; }
+    to { opacity: 1; }
   }
 
   .choices{ 
@@ -175,8 +176,6 @@
 
   .fade-in{ animation: fadeIn 0.3s ease both; display: flex; flex-direction: column; height: 100%; }
   @keyframes fadeIn{ from{opacity:0;} to{opacity:1;} }
-
-  footer{ text-align: center; font-size: 9.5px; color: var(--ink-soft); padding-top: 6px; opacity: 0.6; }
 </style>
 </head>
 <body>
@@ -400,9 +399,8 @@ function go(sceneId){
         <div class="content-container">
           <div class="text-area" onclick="go('${scene.next}')">
             <div class="scene-text">${text}</div>
-            <div class="next-guide">화면을 터치하여 계속 ▾</div>
+            <div class="next-guide">▾</div>
           </div>
-          <footer>― 어스름의 섬 ―</footer>
         </div>
       </div>
     `;
@@ -424,7 +422,6 @@ function go(sceneId){
           <div class="scene-text">${text}</div>
         </div>
         <div class="choices">${choicesHtml}</div>
-        <footer>― 어스름의 섬 ―</footer>
       </div>
     </div>
   `;
@@ -448,7 +445,6 @@ function renderEnding(endId){
           <div class="scene-text">${text}</div>
         </div>
         <button class="primary" onclick="go('title')">다시 처음부터 보기</button>
-        <footer>― 어스름의 섬 ―</footer>
       </div>
     </div>
   `;
