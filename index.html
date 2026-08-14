@@ -397,14 +397,12 @@ ${T("오후 3시... 그리고 서재.")}`,
         opts.push({label:"2층 구석의 먼지 쌓인 다락방 계단으로 향한다", next:"attic"});
       }
 
-      // [수정된 조건] 서재를 다녀온 적이 있을 때만 3시로 돌리는 선택지가 나타남
       if(hasMemory("서재_방문")){
         opts.push({label:"괘종시계 바늘을 '오후 3시'로 돌린다", next:"clock_success"});
       } else {
         opts.push({label:"괘종시계 바늘을 정각 '12시'로 돌려본다", next:"clock_trap"});
       }
 
-      // [숨겨진 선택지] 특정 장소를 모두 방문(서재, 침실, 다락방)하고 나면 로비에 숨겨진 비밀 공간 조사 선택지가 해제됨!
       if(hasMemory("서재_방문") && hasMemory("침실_방문") && hasMemory("다락방_방문")){
         opts.push({label:"✨ [조사] 로비 바닥에 새겨진 미묘한 별자리의 흔적을 살펴본다", next:"secret_hall_hint", isHiddenUnlocked: true});
       }
@@ -448,15 +446,25 @@ ${T("북동쪽 절벽...")}`,
     choices:(s)=>{
       const opts = [];
       if(!hasMemory("렌즈_조각")){
-        // [암각화 힌트 연동] 암각화를 보고 왔다면 3-8-5가 정답임을 알 수 있음
-        opts.push({label:"다이얼을 '3-8-5'로 조합해 맞춘다", next:"study_box_open"});
-        opts.push({label:"다이얼을 '3-8-8'로 조합해 맞춘다", next:"study_box_fail"});
+        // [수정된 조건] 암각화(비밀번호 힌트)를 보기 전에는 다이얼 선택지가 나오지 않고 독백만 출력
+        if(hasMemory("암초_수로_파악")){
+          opts.push({label:"다이얼을 '3-8-5'로 조합해 맞춘다", next:"study_box_open"});
+          opts.push({label:"다이얼을 '3-8-8'로 조합해 맞춘다", next:"study_box_fail"});
+        } else {
+          opts.push({label:"다이얼 잠금장치를 살펴본다 (비밀번호를 찾아야 한다)", next:"study_box_hint_thought"});
+        }
       } else {
         opts.push({label:"열린 상자 내부를 살펴본다", next:"study_box_empty"});
       }
       opts.push({label:"로비로 돌아간다", next:"hall"});
       return opts;
     }
+  },
+
+  study_box_hint_thought: { frame:["desk", "서재"],
+    text: (s)=>`3자리의 다이얼 잠금장치가 견고하게 채워져 있다.
+${T("어디선가 이 상자를 열 수 있는 비밀번호의 힌트를 찾아야 해.")}`,
+    next:"study_choice"
   },
 
   study_box_empty: { frame:["desk", "서재"],
@@ -528,7 +536,6 @@ ${T("파란색 금장 망원경...2단계")}`,
         {label:"섬 정상의 등대로 올라간다", next:"lighthouse"},
         {label:"어두운 지하 포구 동굴로 내려간다", next:"cave"}
       ];
-      // [숨겨진 선택지] 로비에서 비밀 열쇠구멍을 발견했다면 비밀통로에서도 추가 은닉 선택지 오픈 가능
       if(hasMemory("비밀_열쇠구멍_발견") && !hasMemory("비밀_보물_획득")){
         opts.push({label:"🔍 [탐색] 통로 벽면에 파여진 숨겨진 벽감을 조사한다", next:"secret_hidden_item", isHiddenUnlocked: true});
       }
@@ -558,7 +565,6 @@ ${T("이 시계를 가지면 이 섬의 진정한 비밀에 닿을 수 있을지
 
       opts.push({label:"등대 불빛으로 허공에 SOS 모스 신호를 보낸다", next:"p_light_trap"});
       
-      // [숨겨진 선택지] 비밀 보물을 획득했다면 등대 최상층에서 특별한 광선 모드 해제 가능
       if(hasMemory("비밀_보물_획득")){
         opts.push({label:"🌟 [특수] 회중시계를 제어판에 연동해 '영원한 안개의 해제'를 시도한다", next:"p_light_true_secret", isHiddenUnlocked: true});
       }
@@ -633,9 +639,9 @@ ${T("바닷물이 섞여 있잖아?!")}`,
   cave_depth: { frame:["cave", "지하포구"],
     text: (s)=>`동굴 안쪽 벽면의 오래된 암각화를 발견했다. 
 
-${N("...이 섬 주변의 암초를 빠져나가는 수로는 오직 '북두칠성'이 가리키는 뱃길뿐이다...\n[III - VIII - V]의 별자리에 깃들어 있다.")}
+${N("...이 섬 주변의 암초를 빠져나가는 수로는 오직 '북두칠성'이 가리키는 뱃길뿐이다...\n그리고 서재 다이얼 상자를 열 비밀은 [III - VIII - V]의 별자리에 깃들어 있다.")}
 
-${T("3-8-5...? 기억해 두자.")}`,
+${T("3-8-5... 서재 상자의 다이얼 비밀번호가 틀림없어.")}`,
     next:"cave",
     action: ()=>addMemory("암초_수로_파악")
   },
