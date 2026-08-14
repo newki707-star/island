@@ -96,6 +96,7 @@
     cursor: pointer;
     user-select: none;
     padding: 10px 0;
+    position: relative;
   }
 
   .scene-text{
@@ -117,12 +118,13 @@
     padding: 8px 10px; border-radius: 4px; margin: 6px 0; border: 1px solid var(--border-line); line-height: 1.5;
   }
 
-  /* 글자 없이 삼각형만 키워서 은은하게 표시 */
+  /* 삼각형을 우측 가장자리로 이동 */
   .next-guide{
     font-size: 18px;
     color: var(--accent-brown);
-    text-align: center;
-    margin-top: 12px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
     opacity: 0.8;
     animation: fadeInOut 1s infinite alternate;
   }
@@ -223,7 +225,7 @@ const scenes = {
   title: { render: () => `
       <div style="height:100%; display:flex; flex-direction:column; justify-content:center; padding: 20px;">
         <div class="eyebrow">Interactive Fiction</div>
-        <h1 class="title">어스름의 섬</h1>
+        <h1 class="title">해질녁의 섬</h1>
         <p class="subtitle">지친 일상을 뒤로하고 바다로 나선 어느 날,<br>시간이 정지해 버린 안개 섬에 도착했다.</p>
         <button class="primary" onclick="go('p1')">이야기 시작하기</button>
       </div>
