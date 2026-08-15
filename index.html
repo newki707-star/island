@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>해질녘의 섬 - 오디오 확장판</title>
+<title>해질녘의 섬 - 컴팩트 에디션</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
 <style>
@@ -15,7 +15,7 @@
     --border-line:#d1c7b7;
   }
   *{box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
-  html,body{margin:0;padding:0;width:100%;height:100%; background:#12100e;}
+  html,body{margin:0;padding:0;width:100%;height:100%; background:#12100e; overflow:hidden;}
   
   body{
     color:var(--ink-dark); 
@@ -26,8 +26,8 @@
   #book{
     width: 100%;
     max-width: 480px;
-    height: 100vh;
-    max-height: 920px;
+    height: 100%;
+    max-height: 850px;
     background: var(--paper-bg);
     display: flex;
     flex-direction: column;
@@ -39,35 +39,29 @@
   /* 상단 고정 오디오 컨트롤 바 */
   .audio-bar {
     position: absolute;
-    top: 12px;
-    right: 12px;
+    top: 8px;
+    right: 8px;
     z-index: 100;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 4px;
     background: rgba(28, 23, 18, 0.75);
-    padding: 6px 10px;
+    padding: 4px 8px;
     border-radius: 20px;
     backdrop-filter: blur(4px);
-    transition: opacity 0.3s ease;
   }
 
   .audio-bar button {
     background: none;
     border: none;
     color: #f4efe6;
-    font-size: 13px;
+    font-size: 12px;
     font-family: 'Nanum Gothic', sans-serif;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 4px;
-    padding: 2px 4px;
-  }
-
-  .audio-bar span {
-    color: #d1c7b7;
-    font-size: 11px;
+    gap: 3px;
+    padding: 2px;
   }
 
   .page{
@@ -77,12 +71,15 @@
     flex-direction: column;
     position: relative;
     background: var(--paper-bg);
+    overflow: hidden;
   }
 
+  /* 컴팩트 일러스트 영역 (스크롤 방지) */
   .illust-frame{ 
     width: 100%; 
-    height: 55vh;
-    max-height: 480px;
+    height: 34vh;
+    min-height: 180px;
+    max-height: 260px;
     position: relative;
     background: #000;
     overflow: hidden;
@@ -104,30 +101,32 @@
     justify-content: center;
     align-items: center;
     color: #fff;
-    font-size: 14px;
-    letter-spacing: 0.1em;
+    font-size: 13px;
     background: #2a241e;
   }
 
+  /* 컨텐츠 영역 엄격한 높이 제한 (스크롤 원천 차단) */
   .content-area {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 24px 24px 20px 24px;
-    overflow-y: auto;
+    padding: 14px 18px 12px 18px;
+    overflow: hidden;
   }
 
   .text-box {
-    margin-bottom: 20px;
+    margin-bottom: 8px;
     cursor: pointer;
     position: relative;
-    padding-bottom: 24px;
+    padding-bottom: 16px;
+    max-height: 38vh;
+    overflow: hidden;
   }
 
   .scene-text{
-    font-size: 16px;
-    line-height: 1.8;
+    font-size: 14.5px;
+    line-height: 1.6;
     color: var(--ink-dark);
     white-space: pre-line;
     word-break: keep-all;
@@ -136,32 +135,31 @@
   .scene-text .thought{
     display: block;
     font-style: italic;
-    font-size: 15px;
+    font-size: 13.5px;
     color: var(--accent-brown);
-    margin: 8px 0;
-    padding-left: 10px;
+    margin: 4px 0;
+    padding-left: 8px;
     border-left: 2px solid var(--accent-brown);
   }
   
   .scene-text .note-text{
     display: block;
-    font-size: 14.5px;
+    font-size: 13.5px;
     color: #2c241c;
     background: rgba(0,0,0,0.03);
-    padding: 12px 14px;
+    padding: 8px 10px;
     border-radius: 4px;
-    margin: 8px 0;
+    margin: 4px 0;
     border: 1px solid var(--border-line);
-    line-height: 1.6;
+    line-height: 1.5;
   }
 
   .next-hint {
     position: absolute;
     right: 0;
     bottom: 0;
-    font-size: 18px;
+    font-size: 15px;
     color: var(--accent-brown);
-    letter-spacing: 0.1em;
     animation: blink 1.2s infinite ease-in-out;
   }
 
@@ -173,23 +171,24 @@
   .choices{ 
     display: flex; 
     flex-direction: column; 
-    gap: 10px; 
+    gap: 6px; 
     margin-top: auto;
-    padding-bottom: 10px;
+    padding-bottom: 4px;
+    flex-shrink: 0;
   }
 
   button.choice{
     font-family: 'Nanum Gothic', sans-serif;
-    font-size: 15px;
+    font-size: 13.5px;
     font-weight: 700;
-    text-align: center;
+    text-align: left;
     background: transparent;
     color: var(--ink-dark);
     border: none;
-    padding: 12px 16px;
+    padding: 8px 10px;
     cursor: pointer;
     transition: all 0.2s ease;
-    line-height: 1.5;
+    line-height: 1.4;
     word-break: keep-all;
     border-bottom: 1px solid var(--border-line);
   }
@@ -206,25 +205,19 @@
   button.choice.hidden-unlocked {
     color: var(--accent-brown);
     background: rgba(110, 75, 45, 0.08);
-    animation: fadeInChoice 0.5s ease;
-  }
-
-  @keyframes fadeInChoice {
-    from { opacity: 0; transform: translateY(5px); }
-    to { opacity: 1; transform: translateY(0); }
   }
 
   button.primary{
     font-family: 'Nanum Gothic', sans-serif;
     font-weight: 800;
-    font-size: 16px;
+    font-size: 15px;
     background: var(--ink-dark);
     color: var(--paper-bg);
     border: none;
     border-radius: 4px;
-    padding: 14px 28px;
+    padding: 12px 24px;
     cursor: pointer;
-    margin: 20px auto 0 auto;
+    margin: 10px auto 0 auto;
     display: block;
     letter-spacing: 0.05em;
   }
@@ -235,64 +228,62 @@
   }
 
   .eyebrow{ 
-    font-size: 12px; 
-    letter-spacing: 0.3em; 
+    font-size: 11px; 
+    letter-spacing: 0.2em; 
     text-transform: uppercase; 
     color: var(--accent-brown); 
-    margin-bottom: 12px; 
+    margin-bottom: 8px; 
   }
   
   h1.title{ 
     font-weight: 800; 
-    font-size: 32px; 
-    line-height: 1.3; 
-    margin: 0 0 16px 0; 
+    font-size: 26px; 
+    line-height: 1.2; 
+    margin: 0 0 10px 0; 
     color: var(--ink-dark); 
   }
   
   .subtitle{ 
-    font-size: 15.5px; 
+    font-size: 14px; 
     color: var(--ink-soft); 
-    line-height: 1.8; 
+    line-height: 1.6; 
     margin: 0; 
     word-break: keep-all; 
   }
 
   .stamp{
     text-align: center;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 700;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.15em;
     color: var(--accent-brown);
-    margin-bottom: 6px;
+    margin-bottom: 4px;
   }
   
   .ending-title{ 
     font-weight: 800; 
-    font-size: 24px; 
+    font-size: 20px; 
     text-align: center; 
-    margin: 0 0 16px 0; 
+    margin: 0 0 10px 0; 
     color: var(--ink-dark); 
   }
 
-  .fade-in{ animation: fadeIn 0.35s ease both; display: flex; flex-direction: column; height: 100%; }
+  .fade-in{ animation: fadeIn 0.3s ease both; display: flex; flex-direction: column; height: 100%; width: 100%; }
   @keyframes fadeIn{ from{opacity:0;} to{opacity:1;} }
 
-  footer{ text-align:center; font-size:10px; color:var(--ink-soft); padding:6px 0; opacity:0.6; }
+  footer{ text-align:center; font-size:9.5px; color:var(--ink-soft); padding:2px 0; opacity:0.6; flex-shrink: 0; }
 </style>
 </head>
 <body>
 
 <div id="book">
-  <!-- 오디오 컨트롤 UI 위젯 -->
   <div class="audio-bar" id="audioBar" style="display:none;">
-    <button onclick="toggleAudio()" id="audioBtn">🔇 음소거</button>
+    <button onclick="toggleAudio()" id="audioBtn">🔇 BGM</button>
   </div>
   <div class="page" id="panel"></div>
 </div>
 
 <script>
-/* Web Audio API를 활용한 미스터리/다크 분위기 실시간 앰비언트 사운드 엔진 */
 let audioCtx = null;
 let isAudioPlaying = false;
 let ambientInterval = null;
@@ -308,7 +299,6 @@ function initAudio() {
   masterGain.connect(audioCtx.destination);
 }
 
-// 어둡고 음산한 저음 드론(Drone)과 무작위 종소리/바람 효과 생성
 function startDarkAmbient() {
   if (isAudioPlaying) return;
   initAudio();
@@ -318,11 +308,9 @@ function startDarkAmbient() {
   isAudioPlaying = true;
   updateAudioButtonUI();
 
-  // 1. 깊은 저음 드론 베이스 (미스테리한 긴장감)
-  playDroneOscillator(55, 0.15); // A1
-  playDroneOscillator(82.41, 0.08); // E2
+  playDroneOscillator(55, 0.15);
+  playDroneOscillator(82.41, 0.08);
 
-  // 2. 일정한 주기로 울리는 음산한 앰비언트 사운드 루프
   ambientInterval = setInterval(() => {
     if (!isAudioPlaying) return;
     playAtmosphericNote();
@@ -353,7 +341,7 @@ function toggleAudio() {
 function updateAudioButtonUI() {
   const btn = document.getElementById('audioBtn');
   if (btn) {
-    btn.innerHTML = isAudioPlaying ? "🔊 BGM 켜짐" : "🔇 BGM 꺼짐";
+    btn.innerHTML = isAudioPlaying ? "🔊 BGM" : "🔇 BGM";
   }
 }
 
@@ -365,7 +353,6 @@ function playDroneOscillator(freq, volume) {
   osc.type = 'triangle';
   osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
 
-  // 미세한 주파수 떨림 효과 (LFO 유사)
   const lfo = audioCtx.createOscillator();
   const lfoGain = audioCtx.createGain();
   lfo.frequency.setValueAtTime(0.2, audioCtx.currentTime);
@@ -383,8 +370,6 @@ function playDroneOscillator(freq, volume) {
 
 function playAtmosphericNote() {
   if (!audioCtx || !isAudioPlaying) return;
-  
-  // 마이너 펜타토닉 및 공포 분위기 음계 (A단조 기반)
   const notes = [220, 261.63, 293.66, 329.63, 392, 440, 523.25];
   const chosenFreq = notes[Math.floor(Math.random() * notes.length)];
 
@@ -394,13 +379,11 @@ function playAtmosphericNote() {
   osc.type = Math.random() > 0.5 ? 'sine' : 'sawtooth';
   osc.frequency.setValueAtTime(chosenFreq, audioCtx.currentTime);
 
-  // 공간감을 주는 페이드 인/아웃  envelope
   const now = audioCtx.currentTime;
   gain.gain.setValueAtTime(0, now);
   gain.gain.linearRampToValueAtTime(0.04, now + 1.2);
   gain.gain.exponentialRampToValueAtTime(0.0001, now + 5.0);
 
-  // 저역 통과 필터로 몽환적이고 어두운 질감 부여
   const filter = audioCtx.createBiquadFilter();
   filter.type = 'lowpass';
   filter.frequency.setValueAtTime(600, now);
@@ -465,47 +448,20 @@ const scenes = {
       </div>
   `},
 
-  p1: { frame:["boat", "배"], text:()=>`반복되는 일상과 끝없는 서류 작업.
-모든 것에 지쳐 무작정 작은 배를 빌려 바다로 나왔다.`, next:"p2" },
-  
-  p2: { frame:["boat", "배"], text:()=>`차가운 바람이 얼굴을 스쳤다.
-얼마 만에 느껴보는 한적함인지 몰랐다.`, next:"p3" },
-
-  p3: { frame:["fog", "안개"], text:()=>`얼마나 나아갔을까.
-사방에서 짙은 우윳빛 안개가 순식간에 밀려왔다.`, next:"p4" },
-
-  p4: { frame:["fog", "안개"], text:()=>`나침반 바늘은 방향을 잃고 뱅글뱅글 돌기만 했고, 
-엔진 소리만 무겁게 울렸다.`, next:"p5" },
-
-  p5: { frame:["beach", "해변"], text:()=>`둔탁한 마찰음과 함께 배가 작은 모래사장에 박혔다.
-당황스럽기보단, 오랫동안 원했던 휴식처럼 느껴졌다.`, next:"p6" },
-
-  p6: { frame:["beach", "해변"], text:()=>`"안개가 걷힐 때까지만... 쉬었다 가자."
-
-가방에서 책을 꺼내 들고 모래사장에 앉았다.`, next:"p7" },
-
-  p7: { frame:["shadow", "그림자"], text:()=>`한참 동안 책을 읽고 시계를 보았다.
-손목시계의 초침은 째깍거리며 2시간이 지났음을 알리고 있었다.`, next:"p8" },
-
-  p8: { frame:["shadow", "그림자"], text:()=>`하지만 하늘의 노을은 여전히 주황색이었다.
-조금도 어두워지지 않았다.`, next:"p9" },
-
-  p9: { frame:["shadow", "그림자"], text:()=>`이상해서 모래사장 위에 세워둔 나뭇가지 그림자를 관찰했다.
-단 1밀리미터도 움직이지 않았다.
-
-${T("시간이... 전혀 흐르지 않고 있다.")}`, next:"p10" },
-
-  p10: { frame:["boat", "배"], text:()=>`황급히 배로 돌아와 시동을 걸어보았다.
-하지만 배는 마치 모래톱에 굳어버린 것처럼 미동조차 하지 않았다.`, next:"p11" },
-
-  p11: { frame:["beach", "해변"], text:()=>`밀물도 썰물도 없었다.
-파도 소리조차 들리지 않는 이상한 정적.
-
-나는 섬 위쪽으로 발걸음을 옮기기 시작했다.`, next:"beach_choice" },
+  p1: { frame:["boat", "배"], text:()=>`반복되는 일상과 끝없는 서류 작업. 모든 것에 지쳐 무작정 작은 배를 빌려 바다로 나왔다.`, next:"p2" },
+  p2: { frame:["boat", "배"], text:()=>`차가운 바람이 얼굴을 스쳤다. 얼마 만에 느껴보는 한적함인지 몰랐다.`, next:"p3" },
+  p3: { frame:["fog", "안개"], text:()=>`얼마나 나아갔을까. 사방에서 짙은 우윳빛 안개가 순식간에 밀려왔다.`, next:"p4" },
+  p4: { frame:["fog", "안개"], text:()=>`나침반 바늘은 방향을 잃고 뱅글뱅글 돌기만 했고, 엔진 소리만 무겁게 울렸다.`, next:"p5" },
+  p5: { frame:["beach", "해변"], text:()=>`둔탁한 마찰음과 함께 배가 작은 모래사장에 박혔다. 당황스럽기보단, 오랫동안 원했던 휴식처럼 느껴졌다.`, next:"p6" },
+  p6: { frame:["beach", "해변"], text:()=>`"안개가 걷힐 때까지만... 쉬었다 가자." 가방에서 책을 꺼내 들고 모래사장에 앉았다.`, next:"p7" },
+  p7: { frame:["shadow", "그림자"], text:()=>`한참 동안 책을 읽고 시계를 보았다. 손목시계의 초침은 2시간이 지났음을 알리고 있었다.`, next:"p8" },
+  p8: { frame:["shadow", "그림자"], text:()=>`하지만 하늘의 노을은 여전히 주황색이었다. 조금도 어두워지지 않았다.`, next:"p9" },
+  p9: { frame:["shadow", "그림자"], text:()=>`이상해서 나뭇가지 그림자를 관찰했다. 단 1밀리미터도 움직이지 않았다.\n${T("시간이... 전혀 흐르지 않고 있다.")}`, next:"p10" },
+  p10: { frame:["boat", "배"], text:()=>`황급히 배로 돌아와 시동을 걸었으나, 배는 모래톱에 굳어버린 것처럼 미동조차 하지 않았다.`, next:"p11" },
+  p11: { frame:["beach", "해변"], text:()=>`밀물도 썰물도 없었다. 파도 소리조차 들리지 않는 이상한 정적. 섬 위쪽으로 발걸음을 옮긴다.`, next:"beach_choice" },
 
   beach_choice: { frame:["house", "저택"],
-    text: (s)=>`언덕 위로 낡은 2층 목조 저택이 보인다.
-그리고 그 앞에는 누군가 떨어뜨리고 간 듯한 낡은 가방이 파묻혀 있다.`,
+    text: (s)=>`언덕 위로 낡은 2층 목조 저택이 보인다. 그 앞에는 누군가 떨어뜨리고 간 듯한 낡은 가방이 있다.`,
     choices:(s)=>{
       const opts = [];
       if(!hasMemory("북두칠성_방향")){
@@ -517,11 +473,7 @@ ${T("시간이... 전혀 흐르지 않고 있다.")}`, next:"p10" },
   },
 
   find_bag: { frame:["beach", "해변"],
-    text: (s)=>`가방 안에서 어떤 어부의 항해 기록장을 발견했다.
-
-${N("...이 섬 주변의 암초 지형은 기묘하다. 북쪽 절벽의 거친 암초는 오직 '북두칠성이 가리키는 수로'로만 빠져나갈 수 있다. 그렇지 않으면 배가 박살난다...")}
-
-${T("북두칠성 방향... 기억해 두자.")}`,
+    text: (s)=>`가방 안에서 어부의 항해 기록장을 발견했다.\n${N("...북쪽 절벽의 암초는 오직 '북두칠성이 가리키는 수로'로만 빠져나갈 수 있다...")}\n${T("북두칠성 방향... 기억해 두자.")}`,
     next:"house_front",
     action: ()=>addMemory("북두칠성_방향")
   },
@@ -532,16 +484,13 @@ ${T("북두칠성 방향... 기억해 두자.")}`,
   },
 
   house_diary: { frame:["house", "저택"],
-    text: (s)=>`${N("...매일 오후 3시쯤 서재로 들어간다. 이상하게 서재로 들어설 때마다 거실의 커다란 괘종시계가 울리곤 했다. 시계는 서재와 무언가 연결되어 있는 느낌이다...")}
-
-${T("오후 3시... 그리고 서재.")}`,
+    text: (s)=>`${N("...매일 오후 3시쯤 서재로 들어간다. 서재로 들어설 때마다 괘종시계가 울리곤 했다...")}\n${T("오후 3시... 그리고 서재.")}`,
     next:"hall",
     action: ()=>addMemory("3시_서재")
   },
 
   hall: { frame:["hall_clock", "로비"],
-    text: (s)=>`저택은 적막하다. 
-중앙에는 거대한 괘종시계가 서 있고, 계단과 복도가 여러 갈래로 나뉘어 있다.`,
+    text: (s)=>`저택 로비. 중앙에 거대한 괘종시계가 서 있고 계단과 복도가 나뉘어 있다.`,
     choices:(s)=>{
       const opts = [
         {label:"1층 서재 문을 열고 들어간다", next:"study"},
@@ -549,7 +498,7 @@ ${T("오후 3시... 그리고 서재.")}`,
       ];
 
       if(hasMemory("서재_방문") || hasMemory("침실_방문")){
-        opts.push({label:"2층 구석의 먼지 쌓인 다락방 계단으로 향한다", next:"attic"});
+        opts.push({label:"2층 구석의 먼지 쌓인 다락방으로 향한다", next:"attic"});
       }
 
       if(hasMemory("서재_방문")){
@@ -559,7 +508,7 @@ ${T("오후 3시... 그리고 서재.")}`,
       }
 
       if(hasMemory("서재_방문") && hasMemory("침실_방문") && hasMemory("다락방_방문")){
-        opts.push({label:"✨ [조사] 로비 바닥에 새겨진 미묘한 별자리의 흔적을 살펴본다", next:"secret_hall_hint", isHiddenUnlocked: true});
+        opts.push({label:"✨ [조사] 로비 바닥의 숨겨진 열쇠 구멍을 살펴본다", next:"secret_hall_hint", isHiddenUnlocked: true});
       }
 
       return opts;
@@ -567,33 +516,20 @@ ${T("오후 3시... 그리고 서재.")}`,
   },
 
   secret_hall_hint: { frame:["hall_clock", "로비"],
-    text: (s)=>`바닥을 자세히 살펴보자, 괘종시계 하단부 패널에 숨겨진 작은 열쇠 구멍이 나타났다!
-${T("비밀 통로뿐만 아니라 이 안에도 무언가 숨겨져 있었어...")}`,
+    text: (s)=>`바닥을 살펴보자, 패널에 숨겨진 작은 열쇠 구멍이 나타났다!\n${T("비밀 통로뿐만 아니라 이 안에도 무언가 숨겨져 있었어...")}`,
     next:"hall",
     action: ()=>addMemory("비밀_열쇠구멍_발견")
   },
 
-  clock_trap: { frame:["hall_clock", "쾌종시계"],
-    text: (s)=>`태엽을 돌리자 둔탁한 소리와 함께 시계 내부 스프링이 경고음처럼 튕겨 나왔다!
-먼지가 자욱하게 날리며 시계 바늘이 뻑뻑하게 고장 나 버렸다.
-
-${T("아직 정확히 언제로 맞춰야 할지 단서가 부족해...")}`,
+  clock_trap: { frame:["hall_clock", "괘종시계"],
+    text: (s)=>`태엽을 돌리자 둔탁한 소리와 함께 시계 내부 스프링이 고장 나 버렸다.\n${T("단서가 부족해...")}`,
     next:"hall"
   },
 
   study: { frame:["desk", "서재"],
-    text: (s)=>`오래된 책상 위. 
-항해 도면과 서류들이 흩어져 있고, 한쪽에 다이얼 잠금 상자가 놓여 있다.`,
-    next:"study_detail",
-    action: ()=>addMemory("서재_방문")
-  },
-
-  study_detail: { frame:["desk", "서재"],
-    text: (s)=>`${N("...등대의 강력한 빛이라도 그냥 쏘면 안개에 반사되어 무용지물이 된다. 반드시 '북동쪽 절벽의 반사판'을 향해 조준해야 안개가 사라진다...")}
-
-${T("북동쪽 절벽...")}`,
+    text: (s)=>`오래된 책상 위. 항해 도면과 서류들이 흩어져 있고 다이얼 상자가 놓여 있다.`,
     next:"study_choice",
-    action: ()=>addMemory("북동쪽_절벽")
+    action: ()=>addMemory("서재_방문")
   },
 
   study_choice: { frame:["desk", "서재"],
@@ -602,8 +538,8 @@ ${T("북동쪽 절벽...")}`,
       const opts = [];
       if(!hasMemory("렌즈_조각")){
         if(hasMemory("암초_수로_파악")){
-          opts.push({label:"다이얼을 '3-8-5'로 조합해 맞춘다", next:"study_box_open"});
-          opts.push({label:"다이얼을 '3-8-8'로 조합해 맞춘다", next:"study_box_fail"});
+          opts.push({label:"다이얼을 올바른 번호 '3-8-5'로 맞춘다", next:"study_box_open"});
+          opts.push({label:"다이얼을 다른 번호로 맞춰본다", next:"study_box_fail"});
         } else {
           opts.push({label:"다이얼 잠금장치를 살펴본다 (비밀번호를 찾아야 한다)", next:"study_box_hint_thought"});
         }
@@ -616,17 +552,15 @@ ${T("북동쪽 절벽...")}`,
   },
 
   study_box_hint_thought: { frame:["desk", "서재"],
-    text: (s)=>`3자리의 다이얼 잠금장치가 견고하게 채워져 있다.
-${T("어디선가 이 상자를 열 수 있는 비밀번호의 힌트를 찾아야 해.")}`,
+    text: (s)=>`3자리의 다이얼 잠금장치가 견고하게 채워져 있다.\n${T("지하 포구 등에 힌트가 숨겨져 있을지도 몰라.")}`,
     next:"study_choice"
   },
 
   study_box_empty: { frame:["desk", "서재"],
-    text: (s)=>`상자에는 아주 미세한 안개 억제 기술 관련 도면이 남아있다.`, next:"hall" },
+    text: (s)=>`상자에는 안개 억제 기술 관련 도면이 남아있다.`, next:"hall" },
 
   study_box_fail: { frame:["desk", "서재"],
-    text: (s)=>`철컥... 다이얼을 맞췄지만 잠금장치는 미동도 하지 않는다.
-${T("암각화에 적힌 숫자가 아니었나? 다시 확인해 봐야겠어.")}`,
+    text: (s)=>`철컥... 잠금장치는 미동도 하지 않는다.\n${T("비밀번호를 다시 확인해야겠어.")}`,
     next:"hall"
   },
 
@@ -637,90 +571,57 @@ ${T("암각화에 적힌 숫자가 아니었나? 다시 확인해 봐야겠어."
   },
 
   bedroom: { frame:["house", "침실"],
-    text: (s)=>`2층 침실. 
-탁자 위에 주파수 조율에 관한 관찰 메모가 남겨져 있다.`,
-    next:"bedroom_detail",
+    text: (s)=>`2층 침실. 탁자 위에 주파수 조율에 관한 관찰 메모가 남겨져 있다.\n${N("...등대 주파수를 '88.5MHz'로 맞추었을 때 안개가 흩어졌다.")}\n${T("주파수 88.5MHz...")}`,
+    next:"hall",
     action: ()=>addMemory("침실_방문")
   },
 
-  bedroom_detail: { frame:["house", "침실"],
-    text: (s)=>`${N("...여기 안개 입자는 특정 주파수에 반응한다. 등대 제어기를 '88.5MHz'로 맞추었을 때 안개가 흩어지는 현상을 관찰했다...")}
-
-${T("주파수 88.5MHz...")}`,
-    next:"hall",
-    action: ()=>addMemory("주파수_885")
-  },
-
   attic: { frame:["attic", "다락방"],
-    text: (s)=>`거미줄이 친 다락방 창가. 
-수평선 너머 정지한 상현달을 향해 고정된 망원경과 태엽 오르골이 놓여 있다.`,
-    choices:[
-      {label:"망원경 옆 노트의 기록을 자세히 읽어본다", next:"attic_detail"},
-      {label:"탁자 위 태엽 오르골을 끝까지 감아 작동시킨다", next:"attic_trap"},
-      {label:"로비로 돌아내려간다", next:"hall"}
-    ],
+    text: (s)=>`다락방 창가. 망원경과 노트가 놓여 있다.\n${N("...파도가 잔잔해지는 날에는 '2단계'로 설정해놓는다.")}\n${T("초점 2단계.")}`,
+    next:"hall",
     action: ()=>addMemory("다락방_방문")
   },
 
-  attic_trap: { frame:["attic", "다락방"],
-    text: (s)=>`이형의 오르골 소리가 기괴하게 다락방에 퍼진다...
-순간 극심한 이명과 환각이 밀려오며 머리가 지끈거린다!
-
-${T("으윽... 만지지 말았어야 했어!")}`,
-    next:"hall"
-  },
-
-  attic_detail: { frame:["attic", "다락방"],
-    text: (s)=>`${N("...파도가 잔잔해지는 날에는 왠지 '최고급 파란색 금장' 망원경으로 보고 싶다. 주로 '2단계'로 설정해놓는다...")}
-
-${T("파란색 금장 망원경...2단계")}`,
-    next:"hall",
-    action: ()=>addMemory("렌즈_초점_3단계")
-  },
-
   clock_success: { frame:["hall_clock", "괘종시계"],
-    text: (s)=>`시계 바늘을 '오후 3시'에 맞추자, 둔탁한 소리와 함께 시계 뒤편의 벽면이 열리며 지하 비밀통로가 나타났다!`,
+    text: (s)=>`시계 바늘을 '오후 3시'에 맞추자, 벽면이 열리며 지하 비밀통로가 나타났다!`,
     next:"secret_path"
   },
 
   secret_path: { frame:["house", "비밀통로"],
-    text: (s)=>`비밀통로는 두 갈래로 갈라진다. 위쪽은 등대로, 아래쪽은 지하 포구 동굴로 연결된다.`,
+    text: (s)=>`비밀통로는 두 갈래로 갈라진다.`,
     choices:(s)=>{
       const opts = [
         {label:"섬 정상의 등대로 올라간다", next:"lighthouse"},
         {label:"어두운 지하 포구 동굴로 내려간다", next:"cave"}
       ];
       if(hasMemory("비밀_열쇠구멍_발견") && !hasMemory("비밀_보물_획득")){
-        opts.push({label:"🔍 [탐색] 통로 벽면에 파여진 숨겨진 벽감을 조사한다", next:"secret_hidden_item", isHiddenUnlocked: true});
+        opts.push({label:"🔍 [탐색] 통로 벽면의 숨겨진 벽감을 조사한다", next:"secret_hidden_item", isHiddenUnlocked: true});
       }
       return opts;
     }
   },
 
   secret_hidden_item: { frame:["house", "비밀통로"],
-    text: (s)=>`벽감을 밀어내자 섬의 창립자가 남긴 '기묘한 황금 회중시계'가 빛나고 있다!
-${T("이 시계를 가지면 이 섬의 진정한 비밀에 닿을 수 있을지도 몰라.")}`,
+    text: (s)=>`벽감을 밀어내자 '기묘한 황금 회중시계'가 빛나고 있다!\n${T("섬의 진정한 비밀에 닿을 수 있을지도 몰라.")}`,
     next:"secret_path",
     action: ()=>addMemory("비밀_보물_획득")
   },
 
   lighthouse: { frame:["title_bg", "등대"],
-    text: (s)=>`등대 제어실. 거대한 거울과 복잡한 조작 레버들이 먼지를 뒤덮은 채 서 있다.`,
+    text: (s)=>`등대 제어실. 조작 레버들이 서 있다.`,
     choices:(s)=>{
       const opts = [
         {label:"등대 제어반 조작부를 살펴본다", next:"lighthouse_engine"}
       ];
 
       if(hasMemory("주파수_885")){
-        opts.push({label:"주파수를 88.5MHz로 맞추고 북동쪽 절벽으로 광선을 쏜다", next:"p_light_true_1"});
+        opts.push({label:"주파수를 88.5MHz로 맞추고 광선을 쏜다", next:"p_light_true_1"});
       } else {
-        opts.push({label:"주파수 레버를 아무렇게나 맞추고 광선을 가동한다", next:"p_light_normal_1"});
+        opts.push({label:"주파수를 아무렇게나 맞추고 광선을 가동한다", next:"p_light_normal_1"});
       }
 
-      opts.push({label:"등대 불빛으로 허공에 SOS 모스 신호를 보낸다", next:"p_light_trap"});
-      
       if(hasMemory("비밀_보물_획득")){
-        opts.push({label:"🌟 [특수] 회중시계를 제어판에 연동해 '영원한 안개의 해제'를 시도한다", next:"p_light_true_secret", isHiddenUnlocked: true});
+        opts.push({label:"🌟 [특수] 회중시계를 제어판에 연동해 안개를 해제한다", next:"p_light_true_secret", isHiddenUnlocked: true});
       }
 
       opts.push({label:"비밀 통로로 돌아간다", next:"secret_path"});
@@ -728,194 +629,67 @@ ${T("이 시계를 가지면 이 섬의 진정한 비밀에 닿을 수 있을지
     }
   },
 
-  p_light_trap: { frame:["title_bg", "등대"],
-    text: (s)=>`등대 불빛을 켜고 모스 신호를 보냈으나, 불빛이 안개 벽에 튕겨 나와 등대 내부로 반사되어 눈을 멀게 했다!
-
-${T("안개 속에서는 단순 불빛 신호가 통하지 않아...")}`,
-    next:"lighthouse"
-  },
-
   lighthouse_engine: { frame:["title_bg", "등대"],
     text: (s)=>`등대 제어반 세부 조작부.`,
     choices:(s)=>{
       const opts = [];
-
-      if(hasMemory("렌즈_초점_3단계")){
-        opts.push({label:"망원경 노트대로 '2단계'로 조정한다", next:"lighthouse_focus_success"});
-      } else {
-        opts.push({label:"가장 높은 단계인 '5단계'로 맞춘다", next:"lighthouse_focus_fail"});
+      if(hasMemory("렌즈_초점_3단계") || hasMemory("다락방_방문")){
+        opts.push({label:"노트대로 초점을 '2단계'로 조절한다", next:"lighthouse_focus_success"});
       }
-
       if(hasMemory("렌즈_조각") && !hasMemory("강화_렌즈_장착")){
-        opts.push({label:"획득한 '특수 강화 렌즈'를 메인 슬롯에 끼운다", next:"lighthouse_lens_success"});
+        opts.push({label:"획득한 '특수 강화 렌즈'를 끼운다", next:"lighthouse_lens_success"});
       }
-
-      opts.push({label:"등대 메인 조작부로 돌아간다", next:"lighthouse"});
+      opts.push({label:"등대 메인으로 돌아간다", next:"lighthouse"});
       return opts;
     }
   },
-
-  lighthouse_focus_fail: { frame:["title_bg", "등대"],
-    text: (s)=>`초점이 맞지 않아 렌즈가 헐겁게 흔들린다.`, next:"lighthouse" },
 
   lighthouse_focus_success: { frame:["title_bg", "등대"],
-    text: (s)=>`탁! 초점이 2단계 위치에 완벽하게 결합되었다.`,
-    next:"lighthouse",
-    action: ()=>addMemory("초점_완료")
-  },
+    text: (s)=>`초점이 2단계 위치에 완벽하게 결합되었다.`, next:"lighthouse", action: ()=>addMemory("초점_완료") },
 
   lighthouse_lens_success: { frame:["title_bg", "등대"],
-    text: (s)=>`필터 렌즈가 슬롯에 고정되며 제어반 빛이 한곳으로 응집되기 시작한다!`,
-    next:"lighthouse",
-    action: ()=>addMemory("강화_렌즈_장착")
-  },
+    text: (s)=>`강화 렌즈가 슬롯에 고정되며 빛이 응집되기 시작한다!`, next:"lighthouse", action: ()=>addMemory("강화_렌즈_장착") },
 
+  /* [수정됨] 포구에 갔을 때 곧바로 엔딩으로 가지 않고, 동굴 안에서 단서와 탈출 선택지를 제공 */
   cave: { frame:["cave", "지하포구"],
-    text: (s)=>`습한 냄새가 진동하는 지하 포구. 선착장에 작은 뗏목 하나가 매여 있다.`,
+    text: (s)=>`습한 냄새가 진동하는 지하 포구 동굴. 선착장 벽면에 암각화가 새겨져 있다.\n${N("...다이얼 상자의 비밀은 [3-8-5]에 깃들어 있다.")}\n${T("3-8-5... 서재 상자를 열 수 있는 번호야!")}`,
     choices:(s)=>{
-      const opts = [];
-      if(!hasMemory("암초_수로_파악")){
-        opts.push({label:"동굴 안쪽 깊은 벽면을 조사한다", next:"cave_depth"});
-      }
-      opts.push({label:"동굴 바위에 흘러내리는 물을 마셔본다", next:"cave_water_trap"});
-      opts.push({label:"뗏목에 올라타고 바다로 나갈 준비를 한다", next:"raft"});
+      const opts = [
+        {label:"뗏목에 올라타고 북두칠성 방향으로 탈출을 시도한다", next:"p_escape_true_1"},
+        {label:"무작정 뗏목을 타고 바다로 나간다", next:"p_escape_risk_1"},
+        {label:"저택 안으로 다시 돌아간다", next:"secret_path"}
+      ];
       return opts;
-    }
-  },
-
-  cave_water_trap: { frame:["cave", "지하포구"],
-    text: (s)=>`지하수를 마시자 지독한 소금기와 이끼 맛이 입안 가득 퍼지며 구토감이 솟구쳤다!
-
-${T("바닷물이 섞여 있잖아?!")}`,
-    next:"cave"
-  },
-
-  cave_depth: { frame:["cave", "지하포구"],
-    text: (s)=>`동굴 안쪽 벽면의 오래된 암각화를 발견했다. 
-
-${N("...이 섬 주변의 암초를 빠져나가는 수로는 오직 '북두칠성'이 가리키는 뱃길뿐이다...\n그리고 서재 다이얼 상자를 열 비밀은 [III - VIII - V]의 별자리에 깃들어 있다.")}
-
-${T("3-8-5... 서재 상자의 다이얼 비밀번호가 틀림없어.")}`,
-    next:"cave",
+    },
     action: ()=>addMemory("암초_수로_파악")
   },
 
-  raft: { frame:["cave", "지하포구"],
-    text: (s)=>`뗏목 위에 올라탔다. 정지된 안개 바다가 펼쳐진다.`,
-    choices:(s)=>{
-      const opts = [];
-      if(hasMemory("북두칠성_방향")){
-        opts.push({label:"어부의 노트를 떠올리며 북두칠성 방향으로 노를 저어 나간다", next:"p_escape_true_1"});
-      }
-      opts.push({label:"안개 속 바다로 무작정 노를 저어 나간다", next:"p_escape_risk_1"});
-      opts.push({label:"이 섬의 조용함 속에 머무르기로 한다", next:"p_stay_1"});
-      return opts;
-    }
-  },
+  p_light_true_1: { frame:["title_bg", "등대"], text:()=>`88.5MHz 주파수에 맞춰 레버를 돌렸다. 진동 공명음이 울려 퍼진다.`, next:"p_light_true_2" },
+  p_light_true_2: { frame:["title_bg", "등대"], text:()=>`등대 반사경을 북동쪽 절벽의 반사판으로 조준했다.`, next:"p_light_true_3" },
+  p_light_true_3: { frame:["title_bg", "등대"], text:()=>`스위치를 올리자 거대한 백색 빔이 안개를 뚫고 발사되었다!`, next:"p_light_true_4" },
+  p_light_true_4: { frame:["fog", "안개"], text:()=>`콰아아아-! 안개 벽에 금이 가며 정지했던 바람이 쏟아져 들어온다.`, next:"p_light_true_5" },
+  p_light_true_5: { frame:["hall_clock", "괘종시계"], text:()=>`저택의 괘종시계가 다시 뛰기 시작하고, 밤하늘의 별빛이 드러난다.`, next:"ENDCALC", value:"true_light" },
 
-  p_light_true_1: { frame:["title_bg", "등대"],
-    text:()=>`88.5MHz 주파수에 맞춰 나사를 미세하게 돌렸다.
-제어반 내부에서 웅장한 진동 공명음이 높아지기 시작한다.`, next:"p_light_true_2" },
-  p_light_true_2: { frame:["title_bg", "등대"],
-    text:(s)=>{
-      let extra = "";
-      if(hasMemory("초점_완료")) extra += "\n3단계로 조율된 초점이 광선을 완벽하게 집중시킨다.";
-      if(hasMemory("강화_렌즈_장착")) extra += "\n장착한 강화 필터 렌즈가 빛을 송곳처럼 날카롭게 응집시킨다.";
-      return `이어 등대 반사경을 북동쪽 절벽의 반사판으로 조준했다.${extra}`;
-    }, next:"p_light_true_3" },
-  p_light_true_3: { frame:["title_bg", "등대"],
-    text:()=>`스위치를 올리자 거대한 백색 빔이 안개를 뚫고 북동쪽 절벽으로 직사되었다!
-파동이 반사판에 부딪히며 섬 전체의 시공간이 크게 흔들리기 시작한다.`, next:"p_light_true_4" },
-  p_light_true_4: { frame:["fog", "안개"],
-    text:()=>`콰아아아-!
-단단하게 굳어있던 우윳빛 안개 벽에 금이 가듯 찢어지며, 정지했던 바람이 한순간에 쏟아져 들어왔다.
+  p_light_true_secret: { frame:["title_bg", "등대"], text:()=>`황금 회중시계를 연동하자 등대가 찬란한 빛으로 감싸였다. 안개가 완전히 증발한다.`, next:"ENDCALC", value:"true_secret" },
 
-파도 소리가 귓전을 울리고, 차가운 바닷바람이 서늘하게 뺨을 스쳐 지나간다.`, next:"p_light_true_5" },
-  p_light_true_5: { frame:["hall_clock", "쾌종시계"],
-    text:()=>`째깍, 째깍, 째깍...
+  p_light_normal_1: { frame:["title_bg", "등대"], text:()=>`주파수 조준 없이 레버를 내렸다. 불완전한 섬광이 흩어졌다.`, next:"p_light_normal_2" },
+  p_light_normal_2: { frame:["fog", "안개"], text:()=>`허공으로 유색 광선이 흩어지며 기다란 빛의 기둥을 만들었다.`, next:"p_light_normal_3" },
+  p_light_normal_3: { frame:["boat", "배"], text:()=>`근해를 지나던 어선이 빛 기둥을 보고 다가왔다. 현실로 돌아갈 기회를 잡았다.`, next:"ENDCALC", value:"normal_light" },
 
-저택 깊은 곳에서 오랫동안 멈춰있던 쾌종시계의 초침 소리가 다시 뛰기 시작한다.
-주황색으로 얼어붙어 있던 노을이 넘어가고, 밤하늘의 붉은 노을 위로 별빛이 하나둘 떠오른다.`, next:"ENDCALC", value:"true_light" },
+  p_escape_true_1: { frame:["cave", "지하포구"], text:()=>`북두칠성 수로를 향해 노를 저어 나갔다. 날카로운 암초를 비켜 지나간다.`, next:"p_escape_true_2" },
+  p_escape_true_2: { frame:["fog", "안개"], text:()=>`빽빽하던 안개가 걷히고, 뗏목이 투명한 안개 장막을 통과했다!`, next:"p_escape_true_3" },
+  p_escape_true_3: { frame:["stars", "밤하늘"], text:()=>`뒤를 돌아보자 섬은 안개 속에 감춰졌다. 당신은 자유로운 바다로 돌아왔다.`, next:"ENDCALC", value:"true_escape" },
 
-  p_light_true_secret: { frame:["title_bg", "등대"],
-    text:()=>`황금 회중시계를 제어판 중앙 홈에 끼워 넣자, 등대 전체가 찬란한 푸른빛의 성스러운 오라로 감싸였다!
-안개는 흔적도 없이 증발하고, 섬 전체가 새로운 차원의 빛으로 해방된다.`, next:"ENDCALC", value:"true_secret" },
-
-  p_light_normal_1: { frame:["title_bg", "등대"],
-    text:()=>`주파수와 반사판 조준 없이 묵직한 메인 레버를 내려버렸다.
-불완전한 섬광이 뿜어져 나왔으나 안개 벽에 부딪혀 산산조각 났다.`, next:"p_light_normal_2" },
-  p_light_normal_2: { frame:["fog", "안개"],
-    text:()=>`안개 결계를 완전히 깨뜨리지는 못했지만, 뿜어져 나온 유색 광선이 허공으로 흩어지며 기다란 빛의 기둥을 만들어냈다.
-
-얼마나 지났을까. 안개 너머에서 낮게 울리는 배의 경적 소리가 들려왔다.`, next:"p_light_normal_3" },
-  p_light_normal_3: { frame:["boat", "배"],
-    text:()=>`"이봐요! 거기 누구 있습니까!"
-
-근해를 지나던 어선 한 대가 기이한 빛 기둥을 보고 다가온 것이다.
-진실을 모두 파헤치지는 못했지만, 당신은 마침내 현실로 돌아갈 구원의 손길을 잡았다.`, next:"ENDCALC", value:"normal_light" },
-
-  p_escape_true_1: { frame:["cave", "지하포구"],
-    text:()=>`하늘의 북두칠성을 가리키는 뱃길을 향해 노를 저어 나갔다.`, next:"p_escape_true_2" },
-  p_escape_true_2: { frame:["cave", "지하포구"],
-    text:(s)=>{
-      let extra = hasMemory("암초_수로_파악") ? "\n동굴 암각화에서 본 수중 암초의 흔들림을 느끼며 키를 조절했다." : "";
-      return `날카로운 검은 암초들이 뗏목 옆을 아슬아슬하게 스쳐 지나간다.${extra}`;
-    }, next:"p_escape_true_3" },
-  p_escape_true_3: { frame:["fog", "안개"],
-    text:()=>`얼마나 노를 저었을까. 빽빽하던 안개가 점점 옅어지더니, 
-마침내 뗍목이 투명한 안개 장막을 스르륵 통과했다!`, next:"p_escape_true_4" },
-  p_escape_true_4: { frame:["stars", "밤하늘"],
-    text:()=>`뒤를 돌아보자, 해질녘에 싸여 있던 섬은 짙은 안개 속으로 자취를 감추고 있었다.
-
-상반신을 적시는 시원한 바닷물, 그리고 머리 위로 펼쳐진 밤하늘의 북두칠성.
-당신은 오직 당신 자신의 직감과 단서로 사선을 넘어섰다.`, next:"ENDCALC", value:"true_escape" },
-
-  p_escape_risk_1: { frame:["cave", "지하포구"],
-    text:()=>`무작정 노를 저어 나간 지 얼마 되지 않아, 쿵 하는 소리와 함께 뗏목 바닥이 날카로운 암초에 부딪혔다!`, next:"p_escape_risk_2" },
-  p_escape_risk_2: { frame:["beach", "해변"],
-    text:()=>`차디찬 바닷물이 사방에서 밀려들고, 뗏목은 손 쓸 틈도 없이 산산조각 났다.
-정신없이 파도에 휩쓸려 억지로 헤엄쳐 나왔다.`, next:"p_escape_risk_3" },
-  p_escape_risk_3: { frame:["beach", "해변"],
-    text:()=>`콜록! 콜록!
-모래사장에 기어올라와 바닷물을 토해냈다.
-
-몸은 만신창이가 되었고 탈출 수단은 사라졌다.
-하지만 아직 숨이 붙어있다. 저택으로 돌아가 다른 방법을 찾아야만 한다...`, next:"ENDCALC", value:"risk_escape" },
-
-  p_stay_1: { frame:["shadow", "그림자"],
-    text:()=>`노를 내려놓고 가만히 자리에 앉았다.
-더 이상 나이를 먹지도, 끊임없는 경쟁과 서류 작업에 쫓길 필요도 없는 이곳.`, next:"p_stay_2" },
-  p_stay_2: { frame:["shadow", "그림자"],
-    text:()=>`손목에서 끊임없이 째깍이던 시계를 풀어 모래사장 위로 던져버렸다.
-바람도, 파도도, 세상의 소음도 닿지 않는 완벽한 침묵.`, next:"p_stay_3" },
-  p_stay_3: { frame:["shadow", "그림자"],
-    text:()=>`주황빛 노을은 영원히 이 자리에 머무를 것이다.
-당신은 천천히 눈을 감고, 섬이 내어주는 영원한 안식 속에 몸을 맡겼다.`, next:"ENDCALC", value:"stay" }
+  p_escape_risk_1: { frame:["cave", "지하포구"], text:()=>`무작정 노를 저어 나간 지 얼마 안 되어, 뗏목이 암초에 부딪혔다!`, next:"p_escape_risk_2" },
+  p_escape_risk_2: { frame:["beach", "해변"], text:()=>`뗏목이 산산조각 났고,신경을 곤두세우며 헤엄쳐 모래사장에 기어올라왔다.`, next:"ENDCALC", value:"risk_escape" }
 };
 
 const endings = {
-  ending_true_secret:{ frame:["stars", "엔딩 SS"], badge:"엔딩 SS · 완벽한 해방", title:"시간의 주인",
-    text:(s)=>`숨겨진 비밀 시계를 이용해 섬의 결계를 완전히 해제했다. 안개 속에서 해방된 당신은 새로운 지평을 향해 힘차게 나아간다.`},
-
-  ending_true_light:{ frame:["title_bg", "엔딩 S"], badge:"엔딩 S · 진실 해방", title:"다시 흐르는 시간",
-    text:(s)=>`88.5MHz의 공명과 북동쪽 절벽으로 뻗어간 빛이 안개를 파괴했다.
-멈춰있던 저택의 시계가 다시 째깍거리기 시작했고, 당신은 섬을 벗어나 진짜 당신의 삶으로 돌아왔다.`},
-
-  ending_normal_light:{ frame:["title_bg", "엔딩 B"], badge:"엔딩 B · 구조", title:"안개 속의 불빛",
-    text:(s)=>`비록 완벽한 주파수는 아니었지만, 등대 불빛을 본 지나가던 어선이 섬을 발견했다.
-당신은 무사히 집으로 돌아왔다.`},
-
-  ending_true_escape:{ frame:["stars", "엔딩 A"], badge:"엔딩 A · 생환", title:"북두칠성의 길",
-    text:(s)=>`북두칠성 수로를 따라 암초를 비켜 지나가자 안개가 걷혔다.
-당신은 마침내 자유로운 바다로 돌아왔다.`},
-
-  ending_risk_escape:{ frame:["beach", "엔딩 C"], badge:"엔딩 C · 난파", title:"어두운 바다",
-    text:(s)=>`뗏목이 암초에 부딪혀 부서졌다.
-다행히 헤엄쳐 돌아왔지만, 탈출할 다른 방법을 찾아야 한다.`},
-
-  ending_stay:{ frame:["shadow", "엔딩 D"], badge:"엔딩 D · 안식", title:"시간이 멈춘 방",
-    text:(s)=>`피곤했던 세상 대신 해가 지지 않는 이 정적 속에 머물기로 했다.
-영원한 해질녘 속에서 편안한 안식을 누린다.`}
+  ending_true_secret:{ frame:["stars", "엔딩 SS"], badge:"엔딩 SS · 완벽한 해방", title:"시간의 주인", text:()=>`숨겨진 비밀 시계를 이용해 결계를 완전히 해제했다.`},
+  ending_true_light:{ frame:["title_bg", "엔딩 S"], badge:"엔딩 S · 진실 해방", title:"다시 흐르는 시간", text:()=>`멈춰있던 저택의 시계가 다시 움직이며 현실로 돌아왔다.`},
+  ending_normal_light:{ frame:[ "title_bg", "엔딩 B"], badge:"엔딩 B · 구조", title:"안개 속의 불빛", text:()=>`등대 불빛을 본 어선 덕분에 무사히 집으로 돌아왔다.`},
+  ending_true_escape:{ frame:["stars", "엔딩 A"], badge:"엔딩 A · 생환", title:"북두칠성의 길", text:()=>`북두칠성 수로를 따라 안전하게 바다로 탈출했다.`},
+  ending_risk_escape:{ frame:["beach", "엔딩 C"], badge:"엔딩 C · 난파", title:"어두운 바다", text:()=>`뗏목이 부서져 난파당했다. 다시 방법을 찾아야 한다.`}
 };
 
 function computeEnding(choice){
@@ -923,8 +697,7 @@ function computeEnding(choice){
   if(choice === 'true_light') return 'ending_true_light';
   if(choice === 'normal_light') return 'ending_normal_light';
   if(choice === 'true_escape') return 'ending_true_escape';
-  if(choice === 'risk_escape') return 'ending_risk_escape';
-  return 'ending_stay';
+  return 'ending_risk_escape';
 }
 
 function startGameAudio(){
@@ -943,7 +716,6 @@ let currentChoices = [];
 function choose(index){
   const c = currentChoices[index];
   if(!c) return;
-
   if(c.action) c.action();
 
   if(c.next === 'ENDCALC'){
