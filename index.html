@@ -76,9 +76,9 @@
   /* 이미지가 양옆 검은 여백 없이 꽉 차도록 설정 */
   .illust-frame{ 
     width: 100%; 
-    height: 56vh;
-    min-height: 280px;
-    max-height: 450px;
+    height: 52vh;
+    min-height: 260px;
+    max-height: 420px;
     position: relative;
     background: #1a1612;
     overflow: hidden;
@@ -104,7 +104,7 @@
     background: #2a241e;
   }
 
-  /* 컨텐츠 영역: 텍스트 칸의 공간을 줄이고 여백 압축 */
+  /* 컨텐츠 영역 */
   .content-area {
     flex-grow: 1;
     display: flex;
@@ -120,15 +120,15 @@
     padding-bottom: 12px;
     overflow: hidden;
     min-height: 50px;
-    text-align: center; /* 전체 텍스트 박스 중앙 정렬 */
+    text-align: center;
   }
 
-  /* 텍스트 크기 확대 및 나눔고딕, 중앙 정렬 적용 */
+  /* 텍스트 크기 확대 (19.5px) 및 중앙 정렬 */
   .scene-text{
     font-family: 'Nanum Gothic', sans-serif !important;
-    font-size: 17.5px;
+    font-size: 19.5px;
     font-weight: 700;
-    line-height: 1.5;
+    line-height: 1.55;
     color: var(--ink-dark);
     white-space: pre-line;
     word-break: keep-all;
@@ -139,27 +139,27 @@
     display: block;
     font-family: 'Nanum Gothic', sans-serif !important;
     font-style: italic;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 700;
     color: var(--accent-brown);
-    margin: 4px auto;
+    margin: 6px auto;
     padding: 0;
-    border-left: none; /* 중앙 정렬 시 세로선 제거 또는 유지 선택 (제거하여 깔끔하게) */
+    border-left: none;
     text-align: center;
   }
   
   .scene-text .note-text{
     display: block;
     font-family: 'Nanum Gothic', sans-serif !important;
-    font-size: 16px;
+    font-size: 17.5px;
     font-weight: 700;
     color: #2c241c;
     background: rgba(0,0,0,0.03);
     padding: 6px 10px;
     border-radius: 4px;
-    margin: 4px auto;
+    margin: 6px auto;
     border: 1px solid var(--border-line);
-    line-height: 1.4;
+    line-height: 1.45;
     text-align: center;
     max-width: 90%;
   }
@@ -188,19 +188,19 @@
     flex-shrink: 0;
   }
 
-  /* 선택지 텍스트 중앙 정렬 */
+  /* 선택지 텍스트 크기 확대 및 중앙 정렬 */
   button.choice{
     font-family: 'Nanum Gothic', sans-serif !important;
-    font-size: 16px;
+    font-size: 17.5px;
     font-weight: 800;
-    text-align: center; /* 중앙 정렬 */
+    text-align: center;
     background: transparent;
     color: var(--ink-dark);
     border: none;
-    padding: 6px 4px;
+    padding: 7px 4px;
     cursor: pointer;
     transition: all 0.2s ease;
-    line-height: 1.35;
+    line-height: 1.4;
     word-break: keep-all;
     border-bottom: 1px solid var(--border-line);
   }
@@ -222,12 +222,12 @@
   button.primary{
     font-family: 'Nanum Gothic', sans-serif !important;
     font-weight: 800;
-    font-size: 16px;
+    font-size: 17.5px;
     background: var(--ink-dark);
     color: var(--paper-bg);
     border: none;
     border-radius: 4px;
-    padding: 8px 18px;
+    padding: 9px 18px;
     cursor: pointer;
     margin: 6px auto 0 auto;
     display: block;
@@ -253,7 +253,7 @@
   h1.title{ 
     font-family: 'Nanum Gothic', sans-serif !important;
     font-weight: 800; 
-    font-size: 28px; 
+    font-size: 30px; 
     line-height: 1.2; 
     margin: 0 0 10px 0; 
     color: var(--ink-dark); 
@@ -262,10 +262,10 @@
   
   .subtitle{ 
     font-family: 'Nanum Gothic', sans-serif !important;
-    font-size: 16px; 
+    font-size: 17.5px; 
     font-weight: 700;
     color: var(--ink-soft); 
-    line-height: 1.5; 
+    line-height: 1.55; 
     margin: 0; 
     word-break: keep-all; 
     text-align: center;
@@ -284,7 +284,7 @@
   .ending-title{ 
     font-family: 'Nanum Gothic', sans-serif !important;
     font-weight: 800; 
-    font-size: 22px; 
+    font-size: 24px; 
     text-align: center; 
     margin: 0 0 8px 0; 
     color: var(--ink-dark); 
@@ -470,20 +470,20 @@ const scenes = {
       </div>
   `},
 
-  p1: { frame:["boat", "배"], text:()=>`반복되는 일상과 끝없는 서류 작업. 모든 것에 지쳐 무작정 작은 배를 빌려 바다로 나왔다.`, next:"p2" },
-  p2: { frame:["boat", "배"], text:()=>`차가운 바람이 얼굴을 스쳤다. 얼마 만에 느껴보는 한적함인지 몰랐다.`, next:"p3" },
-  p3: { frame:["fog", "안개"], text:()=>`얼마나 나아갔을까. 사방에서 짙은 우윳빛 안개가 순식간에 밀려왔다.`, next:"p4" },
-  p4: { frame:["fog", "안개"], text:()=>`나침반 바늘은 방향을 잃고 뱅글뱅글 돌기만 했고, 엔진 소리만 무겁게 울렸다.`, next:"p5" },
-  p5: { frame:["beach", "해변"], text:()=>`둔탁한 마찰음과 함께 배가 작은 모래사장에 박혔다. 당황스럽기보단, 오랫동안 원했던 휴식처럼 느껴졌다.`, next:"p6" },
-  p6: { frame:["beach", "해변"], text:()=>`"안개가 걷힐 때까지만... 쉬었다 가자." 가방에서 책을 꺼내 들고 모래사장에 앉았다.`, next:"p7" },
-  p7: { frame:["shadow", "그림자"], text:()=>`한참 동안 책을 읽고 시계를 보았다. 손목시계의 초침은 2시간이 지났음을 알리고 있었다.`, next:"p8" },
-  p8: { frame:["shadow", "그림자"], text:()=>`하지만 하늘의 노을은 여전히 주황색이었다. 조금도 어두워지지 않았다.`, next:"p9" },
-  p9: { frame:["shadow", "그림자"], text:()=>`이상해서 나뭇가지 그림자를 관찰했다. 단 1밀리미터도 움직이지 않았다.\n${T("시간이... 전혀 흐르지 않고 있다.")}`, next:"p10" },
-  p10: { frame:["boat", "배"], text:()=>`황급히 배로 돌아와 시동을 걸었으나, 배는 모래톱에 굳어버린 것처럼 미동조차 하지 않았다.`, next:"p11" },
-  p11: { frame:["beach", "해변"], text:()=>`밀물도 썰물도 없었다. 파도 소리조차 들리지 않는 이상한 정적. 섬 위쪽으로 발걸음을 옮긴다.`, next:"beach_choice" },
+  p1: { frame:["boat", "배"], text:()=>`반복되는 일상과 끝없는 서류 작업.\n모든 것에 지쳐 무작정 작은 배를 빌려 바다로 나왔다.`, next:"p2" },
+  p2: { frame:["boat", "배"], text:()=>`차가운 바람이 얼굴을 스쳤다.\n얼마 만에 느껴보는 한적함인지 몰랐다.`, next:"p3" },
+  p3: { frame:["fog", "안개"], text:()=>`얼마나 나아갔을까.\n사방에서 짙은 우윳빛 안개가 순식간에 밀려왔다.`, next:"p4" },
+  p4: { frame:["fog", "안개"], text:()=>`나침반 바늘은 방향을 잃고 뱅글뱅글 돌기만 했고,\n엔진 소리만 무겁게 울렸다.`, next:"p5" },
+  p5: { frame:["beach", "해변"], text:()=>`둔탁한 마찰음과 함께 배가 작은 모래사장에 박혔다.\n당황스럽기보단,\n오랫동안 원했던 휴식처럼 느껴졌다.`, next:"p6" },
+  p6: { frame:["beach", "해변"], text:()=>`"안개가 걷힐 때까지만... 쉬었다 가자."\n가방에서 책을 꺼내 들고 모래사장에 앉았다.`, next:"p7" },
+  p7: { frame:["shadow", "그림자"], text:()=>`한참 동안 책을 읽고 시계를 보았다.\n손목시계의 초침은 2시간이 지났음을 알리고 있었다.`, next:"p8" },
+  p8: { frame:["shadow", "그림자"], text:()=>`하지만 하늘의 노을은 여전히 주황색이었다.\n조금도 어두워지지 않았다.`, next:"p9" },
+  p9: { frame:["shadow", "그림자"], text:()=>`이상해서 나뭇가지 그림자를 관찰했다.\n단 1밀리미터도 움직이지 않았다.\n${T("시간이... 전혀 흐르지 않고 있다.")}`, next:"p10" },
+  p10: { frame:["boat", "배"], text:()=>`황급히 배로 돌아와 시동을 걸었으나,\n배는 모래톱에 굳어버린 것처럼 미동조차 하지 않았다.`, next:"p11" },
+  p11: { frame:["beach", "해변"], text:()=>`밀물도 썰물도 없었다.\n파도 소리조차 들리지 않는 이상한 정적.\n섬 위쪽으로 발걸음을 옮긴다.`, next:"beach_choice" },
 
   beach_choice: { frame:["house", "저택"],
-    text: (s)=>`언덕 위로 낡은 2층 목조 저택이 보인다. 그 앞에는 누군가 떨어뜨리고 간 듯한 낡은 가방이 있다.`,
+    text: (s)=>`언덕 위로 낡은 2층 목조 저택이 보인다.\n그 앞에는 누군가 떨어뜨리고 간 듯한 낡은 가방이 있다.`,
     choices:(s)=>{
       const opts = [];
       if(!hasMemory("북두칠성_방향")){
@@ -495,7 +495,7 @@ const scenes = {
   },
 
   find_bag: { frame:["beach", "해변"],
-    text: (s)=>`가방 안에서 어부의 항해 기록장을 발견했다.\n${N("...북쪽 절벽의 암초는 오직 '북두칠성이 가리키는 수로'로만 빠져나갈 수 있다...")}\n${T("북두칠성 방향... 기억해 두자.")}`,
+    text: (s)=>`가방 안에서 어부의 항해 기록장을 발견했다.\n${N("...북쪽 절벽의 암초는 오직 '북두칠성이 가리키는 수로'로만 빠져나갈 수 있다...")}\n${T("북두칠성 방향, 기억해 두자.")}`,
     next:"house_front",
     action: ()=>addMemory("북두칠성_방향")
   },
@@ -506,13 +506,13 @@ const scenes = {
   },
 
   house_diary: { frame:["house", "저택"],
-    text: (s)=>`${N("...매일 오후 3시쯤 서재로 들어간다. 서재로 들어설 때마다 괘종시계가 울리곤 했다...")}\n${T("오후 3시... 그리고 서재.")}`,
+    text: (s)=>`${N("...매일 오후 3시쯤 서재로 들어간다.\n서재로 들어설 때마다 괘종시계가 울리곤 했다...")}\n${T("오후 3시, 그리고 서재.")}`,
     next:"hall",
     action: ()=>addMemory("3시_서재")
   },
 
   hall: { frame:["hall_clock", "로비"],
-    text: (s)=>`저택 로비. 중앙에 거대한 괘종시계가 서 있고 계단과 복도가 나뉘어 있다.`,
+    text: (s)=>`저택 로비.\n중앙에 거대한 괘종시계가 서 있고 계단과 복도가 나뉘어 있다.`,
     choices:(s)=>{
       const opts = [
         {label:"1층 서재 문을 열고 들어간다", next:"study"},
@@ -549,7 +549,7 @@ const scenes = {
   },
 
   study: { frame:["desk", "서재"],
-    text: (s)=>`오래된 책상 위. 항해 도면과 서류들이 흩어져 있고 다이얼 상자가 놓여 있다.`,
+    text: (s)=>`오래된 책상 위.\n항해 도면과 서류들이 흩어져 있고 다이얼 상자가 놓여 있다.`,
     next:"study_choice",
     action: ()=>addMemory("서재_방문")
   },
@@ -593,19 +593,19 @@ const scenes = {
   },
 
   bedroom: { frame:["house", "침실"],
-    text: (s)=>`2층 침실. 탁자 위에 주파수 조율에 관한 관찰 메모가 남겨져 있다.\n${N("...등대 주파수를 '88.5MHz'로 맞추었을 때 안개가 흩어졌다.")}\n${T("주파수 88.5MHz...")}`,
+    text: (s)=>`2층 침실.\n탁자 위에 주파수 조율에 관한 관찰 메모가 남겨져 있다.\n${N("...등대 주파수를 '88.5MHz'로 맞추었을 때 안개가 흩어졌다.")}\n${T("주파수 88.5MHz.")}`,
     next:"hall",
     action: ()=>addMemory("침실_방문")
   },
 
   attic: { frame:["attic", "다락방"],
-    text: (s)=>`다락방 창가. 망원경과 노트가 놓여 있다.\n${N("...파도가 잔잔해지는 날에는 '2단계'로 설정해놓는다.")}\n${T("초점 2단계.")}`,
+    text: (s)=>`다락방 창가.\n망원경과 노트가 놓여 있다.\n${N("...파도가 잔잔해지는 날에는 '2단계'로 설정해놓는다.")}\n${T("초점 2단계.")}`,
     next:"hall",
     action: ()=>addMemory("다락방_방문")
   },
 
   clock_success: { frame:["hall_clock", "괘종시계"],
-    text: (s)=>`시계 바늘을 '오후 3시'에 맞추자, 벽면이 열리며 지하 비밀통로가 나타났다!`,
+    text: (s)=>`시계 바늘을 '오후 3시'에 맞자, 벽면이 열리며 지하 비밀통로가 나타났다!`,
     next:"secret_path"
   },
 
@@ -632,7 +632,7 @@ const scenes = {
   },
 
   lighthouse: { frame:["title_bg", "등대"],
-    text: (s)=>`등대 제어실. 조작 레버들이 서 있다.`,
+    text: (s)=>`등대 제어실.\n조작 레버들이 서 있다.`,
     choices:(s)=>{
       const opts = [
         {label:"등대 제어반 조작부를 살펴본다", next:"lighthouse_engine"}
@@ -675,7 +675,7 @@ const scenes = {
     text: (s)=>`강화 렌즈가 슬롯에 고정되며 빛이 응집되기 시작한다!`, next:"lighthouse", action: ()=>addMemory("강화_렌즈_장착") },
 
   cave: { frame:["cave", "지하포구"],
-    text: (s)=>`습한 냄새가 진동하는 지하 포구 동굴. 선착장 벽면에 암각화가 새겨져 있다.\n${N("...다이얼 상자의 비밀은 [3-8-5]에 깃들어 있다.")}\n${T("3-8-5... 서재 상자를 열 수 있는 번호야!")}`,
+    text: (s)=>`습한 냄새가 진동하는 지하 포구 동굴.\n선착장 벽면에 암각화가 새겨져 있다.\n${N("...다이얼 상자의 비밀은 [3-8-5]에 깃들어 있다.")}\n${T("3-8-5, 서재 상자를 열 수 있는 번호야!")}`,
     choices:(s)=>{
       const opts = [
         {label:"[이동] 서재로 돌아가 상자에 다이얼을 입력한다", next:"study"},
@@ -688,24 +688,24 @@ const scenes = {
     action: ()=>addMemory("암초_수로_파악")
   },
 
-  p_light_true_1: { frame:["title_bg", "등대"], text:()=>`88.5MHz 주파수에 맞춰 레버를 돌렸다. 진동 공명음이 울려 퍼진다.`, next:"p_light_true_2" },
+  p_light_true_1: { frame:["title_bg", "등대"], text:()=>`88.5MHz 주파수에 맞춰 레버를 돌렸다.\n진동 공명음이 울려 퍼진다.`, next:"p_light_true_2" },
   p_light_true_2: { frame:["title_bg", "등대"], text:()=>`등대 반사경을 북동쪽 절벽의 반사판으로 조준했다.`, next:"p_light_true_3" },
   p_light_true_3: { frame:["title_bg", "등대"], text:()=>`스위치를 올리자 거대한 백색 빔이 안개를 뚫고 발사되었다!`, next:"p_light_true_4" },
-  p_light_true_4: { frame:["fog", "안개"], text:()=>`콰아아아-! 안개 벽에 금이 가며 정지했던 바람이 쏟아져 들어온다.`, next:"p_light_true_5" },
-  p_light_true_5: { frame:["hall_clock", "괘종시계"], text:()=>`저택의 괘종시계가 다시 뛰기 시작하고, 밤하늘의 별빛이 드러난다.`, next:"ENDCALC", value:"true_light" },
+  p_light_true_4: { frame:["fog", "안개"], text:()=>`콰아아아-!\n안개 벽에 금이 가며 정지했던 바람이 쏟아져 들어온다.`, next:"p_light_true_5" },
+  p_light_true_5: { frame:["hall_clock", "괘종시계"], text:()=>`저택의 괘종시계가 다시 뛰기 시작하고,\n밤하늘의 별빛이 드러난다.`, next:"ENDCALC", value:"true_light" },
 
-  p_light_true_secret: { frame:["title_bg", "등대"], text:()=>`황금 회중시계를 연동하자 등대가 찬란한 빛으로 감싸였다. 안개가 완전히 증발한다.`, next:"ENDCALC", value:"true_secret" },
+  p_light_true_secret: { frame:["title_bg", "등대"], text:()=>`황금 회중시계를 연동하자 등대가 찬란한 빛으로 감싸였다.\n안개가 완전히 증발한다.`, next:"ENDCALC", value:"true_secret" },
 
-  p_light_normal_1: { frame:["title_bg", "등대"], text:()=>`주파수 조준 없이 레버를 내렸다. 불완전한 섬광이 흩어졌다.`, next:"p_light_normal_2" },
+  p_light_normal_1: { frame:["title_bg", "등대"], text:()=>`주파수 조준 없이 레버를 내렸다.\n불완전한 섬광이 흩어졌다.`, next:"p_light_normal_2" },
   p_light_normal_2: { frame:["fog", "안개"], text:()=>`허공으로 유색 광선이 흩어지며 기다란 빛의 기둥을 만들었다.`, next:"p_light_normal_3" },
-  p_light_normal_3: { frame:["boat", "배"], text:()=>`근해를 지나던 어선이 빛 기둥을 보고 다가왔다. 현실로 돌아갈 기회를 잡았다.`, next:"ENDCALC", value:"normal_light" },
+  p_light_normal_3: { frame:["boat", "배"], text:()=>`근해를 지나던 어선이 빛 기둥을 보고 다가왔다.\n현실로 돌아갈 기회를 잡았다.`, next:"ENDCALC", value:"normal_light" },
 
-  p_escape_true_1: { frame:["cave", "지하포구"], text:()=>`북두칠성 수로를 향해 노를 저어 나갔다. 날카로운 암초를 비켜 지나간다.`, next:"p_escape_true_2" },
-  p_escape_true_2: { frame:["fog", "안개"], text:()=>`빽빽하던 안개가 걷히고, 뗏목이 투명한 안개 장막을 통과했다!`, next:"p_escape_true_3" },
-  p_escape_true_3: { frame:["stars", "밤하늘"], text:()=>`뒤를 돌아보자 섬은 안개 속에 감춰졌다. 당신은 자유로운 바다로 돌아왔다.`, next:"ENDCALC", value:"true_escape" },
+  p_escape_true_1: { frame:["cave", "지하포구"], text:()=>`북두칠성 수로를 향해 노를 저어 나갔다.\n날카로운 암초를 비켜 지나간다.`, next:"p_escape_true_2" },
+  p_escape_true_2: { frame:["fog", "안개"], text:()=>`빽빽하던 안개가 걷히고,\n뗏목이 투명한 안개 장막을 통과했다!`, next:"p_escape_true_3" },
+  p_escape_true_3: { frame:["stars", "밤하늘"], text:()=>`뒤를 돌아보자 섬은 안개 속에 감춰졌다.\n당신은 자유로운 바다로 돌아왔다.`, next:"ENDCALC", value:"true_escape" },
 
-  p_escape_risk_1: { frame:["cave", "지하포구"], text:()=>`무작정 노를 저어 나간 지 얼마 안 되어, 뗏목이 암초에 부딪혔다!`, next:"p_escape_risk_2" },
-  p_escape_risk_2: { frame:["beach", "해변"], text:()=>`뗏목이 산산조각 났고, 신경을 곤두세우며 헤엄쳐 모래사장에 기어올라왔다.`, next:"ENDCALC", value:"risk_escape" }
+  p_escape_risk_1: { frame:["cave", "지하포구"], text:()=>`무작정 노를 저어 나간 지 얼마 안 되어,\n뗏목이 암초에 부딪혔다!`, next:"p_escape_risk_2" },
+  p_escape_risk_2: { frame:["beach", "해변"], text:()=>`뗏목이 산산조각 났고,\n신경을 곤두세우며 헤엄쳐 모래사장에 기어올라왔다.`, next:"ENDCALC", value:"risk_escape" }
 };
 
 const endings = {
@@ -713,7 +713,7 @@ const endings = {
   ending_true_light:{ frame:["title_bg", "엔딩 S"], badge:"엔딩 S · 진실 해방", title:"다시 흐르는 시간", text:()=>`멈춰있던 저택의 시계가 다시 움직이며 현실로 돌아왔다.`},
   ending_normal_light:{ frame:[ "title_bg", "엔딩 B"], badge:"엔딩 B · 구조", title:"안개 속의 불빛", text:()=>`등대 불빛을 본 어선 덕분에 무사히 집으로 돌아왔다.`},
   ending_true_escape:{ frame:["stars", "엔딩 A"], badge:"엔딩 A · 생환", title:"북두칠성의 길", text:()=>`북두칠성 수로를 따라 안전하게 바다로 탈출했다.`},
-  ending_risk_escape:{ frame:["beach", "엔딩 C"], badge:"엔딩 C · 난파", title:"어두운 바다", text:()=>`뗏목이 부서져 난파당했다. 다시 방법을 찾아야 한다.`}
+  ending_risk_escape:{ frame:["beach", "엔딩 C"], badge:"엔딩 C · 난파", title:"어두운 바다", text:()=>`뗏목이 부서져 난파당했다.\n다시 방법을 찾아야 한다.`}
 };
 
 function computeEnding(choice){
@@ -832,4 +832,4 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 </body>
-</html> 
+</html>
