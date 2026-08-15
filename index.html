@@ -120,9 +120,10 @@
     padding-bottom: 12px;
     overflow: hidden;
     min-height: 50px;
+    text-align: center; /* 전체 텍스트 박스 중앙 정렬 */
   }
 
-  /* 텍스트 크기 대폭 확대 및 나눔고딕 명시 */
+  /* 텍스트 크기 확대 및 나눔고딕, 중앙 정렬 적용 */
   .scene-text{
     font-family: 'Nanum Gothic', sans-serif !important;
     font-size: 17.5px;
@@ -131,6 +132,7 @@
     color: var(--ink-dark);
     white-space: pre-line;
     word-break: keep-all;
+    text-align: center;
   }
   
   .scene-text .thought{
@@ -140,9 +142,10 @@
     font-size: 16px;
     font-weight: 700;
     color: var(--accent-brown);
-    margin: 2px 0;
-    padding-left: 6px;
-    border-left: 2px solid var(--accent-brown);
+    margin: 4px auto;
+    padding: 0;
+    border-left: none; /* 중앙 정렬 시 세로선 제거 또는 유지 선택 (제거하여 깔끔하게) */
+    text-align: center;
   }
   
   .scene-text .note-text{
@@ -152,20 +155,24 @@
     font-weight: 700;
     color: #2c241c;
     background: rgba(0,0,0,0.03);
-    padding: 4px 7px;
+    padding: 6px 10px;
     border-radius: 4px;
-    margin: 2px 0;
+    margin: 4px auto;
     border: 1px solid var(--border-line);
     line-height: 1.4;
+    text-align: center;
+    max-width: 90%;
   }
 
   .next-hint {
     position: absolute;
+    left: 0;
     right: 0;
-    bottom: 0;
+    bottom: -2px;
     font-size: 14px;
     color: var(--accent-brown);
     animation: blink 1.2s infinite ease-in-out;
+    text-align: center;
   }
 
   @keyframes blink {
@@ -181,12 +188,12 @@
     flex-shrink: 0;
   }
 
-  /* 선택지 텍스트 크기 확대 및 나눔고딕 명시 */
+  /* 선택지 텍스트 중앙 정렬 */
   button.choice{
     font-family: 'Nanum Gothic', sans-serif !important;
     font-size: 16px;
     font-weight: 800;
-    text-align: left;
+    text-align: center; /* 중앙 정렬 */
     background: transparent;
     color: var(--ink-dark);
     border: none;
@@ -225,6 +232,7 @@
     margin: 6px auto 0 auto;
     display: block;
     letter-spacing: 0.05em;
+    text-align: center;
   }
 
   .title-container {
@@ -239,6 +247,7 @@
     text-transform: uppercase; 
     color: var(--accent-brown); 
     margin-bottom: 6px; 
+    text-align: center;
   }
   
   h1.title{ 
@@ -248,6 +257,7 @@
     line-height: 1.2; 
     margin: 0 0 10px 0; 
     color: var(--ink-dark); 
+    text-align: center;
   }
   
   .subtitle{ 
@@ -258,6 +268,7 @@
     line-height: 1.5; 
     margin: 0; 
     word-break: keep-all; 
+    text-align: center;
   }
 
   .stamp{
